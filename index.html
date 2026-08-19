@@ -45,7 +45,7 @@ html, body {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
-/* Contenedor Principal */
+/* Contenedor Principal Optimizado */
 .app-container {
   position: relative;
   z-index: 10;
@@ -60,7 +60,7 @@ html, body {
   border: 2px solid rgba(144, 224, 239, 0.4);
   border-radius: 28px;
   box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.4);
-  padding: 16px 18px;
+  padding: clamp(10px, 3vh, 18px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -136,7 +136,7 @@ html, body {
 }
 .intro-text {
   font-family: 'FuturaCustom', 'Outfit', sans-serif;
-  font-size: 1.25rem;
+  font-size: clamp(1rem, 3.8vw, 1.25rem);
   line-height: 1.5;
   text-align: center;
   text-align-last: center;
@@ -144,7 +144,7 @@ html, body {
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
   font-weight: 600;
   background: rgba(0, 119, 182, 0.35);
-  padding: 24px 20px;
+  padding: clamp(16px, 3vh, 24px) clamp(14px, 3vw, 20px);
   border-radius: 20px;
   border: 1px solid rgba(144, 224, 239, 0.4);
 }
@@ -153,7 +153,7 @@ html, body {
   position: relative;
   width: 100%;
   max-width: 290px;
-  height: 350px;
+  height: clamp(280px, 42vh, 350px);
   background: linear-gradient(180deg, #0077b6 0%, #023e8a 100%);
   border-radius: 145px 145px 24px 24px;
   border: 5px solid #00f5d4;
@@ -169,7 +169,7 @@ html, body {
   top: -3px;
   left: -3px;
   right: -3px;
-  height: 145px;
+  height: clamp(110px, 18vh, 145px);
   border-radius: 145px 145px 0 0;
   border: 4px solid #90e0ef;
   border-bottom: 2px solid #00f5d4;
@@ -184,7 +184,7 @@ html, body {
 /* Cúpula Superior centrada */
 .jukebox-top-zone {
   width: 100%;
-  height: 145px;
+  height: clamp(110px, 18vh, 145px);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -192,10 +192,10 @@ html, body {
   padding-bottom: 0;
   z-index: 2;
 }
-/* Cristal Superior reajustado un 10% más abajo */
+/* Cristal Superior con ajuste perfecto */
 .jukebox-grill {
   width: 75%;
-  height: 85px;
+  height: clamp(65px, 11vh, 85px);
   background: radial-gradient(circle, #101c38 20%, #03045e 80%);
   border-radius: 70px 70px 16px 16px;
   border: 2px solid #00f5d4;
@@ -213,16 +213,16 @@ html, body {
   background: #00f5d4;
   color: #03045e;
   border-radius: 6px;
-  padding: 1px 12px;
+  padding: 1px clamp(8px, 2vw, 12px);
   font-weight: 900;
-  font-size: 0.85rem;
+  font-size: clamp(0.75rem, 2.5vw, 0.85rem);
   letter-spacing: 1.5px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.4);
   text-align: center;
 }
 .record-disc {
-  width: 38px;
-  height: 38px;
+  width: clamp(30px, 5vh, 38px);
+  height: clamp(30px, 5vh, 38px);
   background: radial-gradient(circle, #2b2b2b 30%, #000 70%);
   border-radius: 50%;
   border: 2px solid #555;
@@ -232,8 +232,8 @@ html, body {
   box-shadow: 0 0 6px rgba(0,0,0,0.8);
 }
 .record-center {
-  width: 12px;
-  height: 12px;
+  width: clamp(9px, 1.5vh, 12px);
+  height: clamp(9px, 1.5vh, 12px);
   background: #00f5d4;
   border-radius: 50%;
   border: 2px solid #fff;
@@ -251,7 +251,7 @@ html, body {
 .youtube-frame-container {
   width: 100%;
   max-width: 230px;
-  height: 130px;
+  height: clamp(100px, 15vh, 130px);
   border-radius: 12px;
   overflow: hidden;
   border: 2px solid #00f5d4;
@@ -269,7 +269,7 @@ html, body {
   background: rgba(3, 4, 94, 0.45);
   border: 1px solid rgba(144, 224, 239, 0.3);
   border-radius: 14px;
-  padding: 10px 14px;
+  padding: clamp(8px, 1.5vh, 12px) 14px;
   margin: 6px 0;
   text-align: center;
   flex-grow: 1;
@@ -280,7 +280,7 @@ html, body {
   box-shadow: inset 0 2px 6px rgba(0,0,0,0.3);
 }
 .question-title {
-  font-size: 0.75rem;
+  font-size: clamp(0.65rem, 2vw, 0.75rem);
   text-transform: uppercase;
   letter-spacing: 1.5px;
   color: #00f5d4;
@@ -288,7 +288,7 @@ html, body {
   margin-bottom: 4px;
 }
 .question-text {
-  font-size: 0.95rem;
+  font-size: clamp(0.85rem, 2.8vw, 0.95rem);
   line-height: 1.35;
   font-weight: 600;
   color: #ffffff;
@@ -296,13 +296,13 @@ html, body {
 /* Botones principales */
 .btn-main {
   width: 100%;
-  padding: 13px;
+  padding: clamp(10px, 1.8vh, 13px);
   border: none;
   border-radius: 16px;
   background: linear-gradient(135deg, #00f5d4 0%, #00bbf9 100%);
   color: #03045e;
   font-family: 'FuturaCustom', 'Outfit', sans-serif;
-  font-size: 1.05rem;
+  font-size: clamp(0.95rem, 3vw, 1.05rem);
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 1.5px;
@@ -335,7 +335,7 @@ html, body {
   padding: 10px;
 }
 .final-badge {
-  font-size: 3.5rem;
+  font-size: clamp(2.5rem, 8vw, 3.5rem);
   margin-bottom: 10px;
   animation: bounce 1.5s infinite alternate;
 }
@@ -344,13 +344,13 @@ html, body {
   to { transform: translateY(-10px); }
 }
 .final-text {
-  font-size: 1.05rem;
+  font-size: clamp(0.95rem, 3vw, 1.05rem);
   line-height: 1.4;
   margin-bottom: 12px;
   font-weight: 600;
 }
 .final-hint {
-  font-size: 0.85rem;
+  font-size: clamp(0.75rem, 2.5vw, 0.85rem);
   color: #caf0f8;
   background: rgba(3, 4, 94, 0.4);
   padding: 10px 14px;
@@ -431,6 +431,14 @@ const quizData = [
     q: {
       es: "¿Cuántos segundos dura el audio original?",
       en: "How many seconds does the original audio last?"
+    }
+  },
+  {
+    year: "2018",
+    youtubeId: "zEf42103G0M", // Sin Pijama
+    q: {
+      es: "¿Fecha de publicación? (DíaMes, formato: 0000)",
+      en: "Release date? (DayMonth, format: 0000)"
     }
   }
 ];
