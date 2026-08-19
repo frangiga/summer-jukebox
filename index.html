@@ -148,7 +148,7 @@ html, body {
   border-radius: 20px;
   border: 1px solid rgba(144, 224, 239, 0.4);
 }
-/* Jukebox Protagonista */
+/* Jukebox Protagonista con Borde Continuo Neon */
 .jukebox-wrapper {
   position: relative;
   width: 100%;
@@ -157,29 +157,29 @@ html, body {
   background: linear-gradient(180deg, #0077b6 0%, #023e8a 100%);
   border-radius: 145px 145px 24px 24px;
   border: 4px solid #00f5d4;
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45), inset 0 0 20px rgba(0, 245, 212, 0.3);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45), 0 0 15px rgba(0, 245, 212, 0.4);
   display: flex;
   flex-direction: column;
   padding: 0 14px;
   margin: 2px 0;
   flex-shrink: 0;
 }
-/* Arco decorativo unificado (sin doble borde) */
+/* Arco interior decorativo suave */
 .jukebox-arch {
   position: absolute;
-  top: -4px;
-  left: -4px;
-  right: -4px;
-  height: clamp(110px, 18vh, 145px);
-  border-radius: 145px 145px 0 0;
-  border: 4px solid transparent;
-  border-top-color: #90e0ef;
+  top: 6px;
+  left: 6px;
+  right: 6px;
+  height: clamp(100px, 16vh, 130px);
+  border-radius: 135px 135px 0 0;
+  border: 2px solid rgba(144, 224, 239, 0.5);
+  border-bottom: none;
   pointer-events: none;
   animation: neonPulse 2s infinite alternate;
 }
 @keyframes neonPulse {
-  0% { filter: drop-shadow(0 0 2px #00f5d4); }
-  100% { filter: drop-shadow(0 0 8px #90e0ef); }
+  0% { opacity: 0.6; }
+  100% { opacity: 1; filter: drop-shadow(0 0 4px #90e0ef); }
 }
 /* Cúpula Superior centrada */
 .jukebox-top-zone {
@@ -208,6 +208,15 @@ html, body {
   position: relative;
   box-shadow: inset 0 0 10px rgba(0,0,0,0.7);
   transform: translateY(-3px);
+}
+/* Separador Horizontal Superior-Inferior */
+.jukebox-divider {
+  width: 100%;
+  height: 3px;
+  background: #00f5d4;
+  box-shadow: 0 0 6px #00f5d4;
+  z-index: 2;
+  margin-bottom: 4px;
 }
 .year-badge {
   background: #00f5d4;
@@ -393,6 +402,9 @@ html, body {
           </div>
         </div>
       </div>
+
+      <!-- Separador Horizontal Interior -->
+      <div class="jukebox-divider"></div>
 
       <!-- Cuerpo Inferior -->
       <div class="jukebox-bottom-zone">
