@@ -1,546 +1,510 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>SUMMER JUKEBOX</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&display=swap" rel="stylesheet">
-  <style>
-    @font-face {
-      font-family: 'FuturaCustom';
-      src: local('Futura-Medium'), local('Futura'), local('Trebuchet MS'), sans-serif;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      user-select: none;
-      -webkit-user-select: none;
-    }
-
-    html, body {
-      width: 100%;
-      height: 100vh;
-      height: 100dvh;
-      overflow: hidden;
-      font-family: 'Outfit', sans-serif;
-      background: linear-gradient(135deg, #00b4d8 0%, #0077b6 40%, #03045e 100%);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #fff;
-    }
-
-    /* Destellos aquamarina */
-    .sunburst {
-      position: absolute;
-      width: 160vw;
-      height: 160vh;
-      background: repeating-conic-gradient(
-        from 0deg,
-        rgba(144, 224, 239, 0.1) 0deg 15deg,
-        transparent 15deg 30deg
-      );
-      animation: rotateSun 60s linear infinite;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    @keyframes rotateSun {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    /* Contenedor Principal */
-    .app-container {
-      position: relative;
-      z-index: 10;
-      width: 92%;
-      max-width: 430px;
-      height: 95vh;
-      height: 95dvh;
-      max-height: 820px;
-      background: rgba(3, 4, 94, 0.25);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 2px solid rgba(144, 224, 239, 0.4);
-      border-radius: 28px;
-      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.4);
-      padding: 16px 18px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    /* Cabecera con título perfectamente centrado */
-    .header {
-      width: 100%;
-      height: 36px;
-      position: relative;
-      display: flex;
-      align-items: center;
-      flex-shrink: 0;
-    }
-
-    .app-title {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      font-family: 'FuturaCustom', 'Outfit', sans-serif;
-      font-size: clamp(1.1rem, 4.5vw, 1.5rem);
-      font-weight: 900;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      white-space: nowrap;
-      background: linear-gradient(180deg, #ffffff 0%, #caf0f8 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 2px 10px rgba(0,180,216,0.5);
-    }
-
-    .lang-switch {
-      position: absolute;
-      right: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(0, 180, 216, 0.25);
-      border: 1px solid rgba(144, 224, 239, 0.5);
-      border-radius: 20px;
-      color: #fff;
-      font-size: 0.75rem;
-      font-weight: 800;
-      padding: 3px 9px;
-      cursor: pointer;
-      outline: none;
-      transition: all 0.2s ease;
-      z-index: 2;
-    }
-
-    .lang-switch:hover {
-      background: rgba(144, 224, 239, 0.4);
-      color: #03045e;
-    }
-
-    /* Pantallas */
-    .screen {
-      width: 100%;
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-between;
-      flex-grow: 1;
-      margin: 6px 0;
-    }
-
-    .screen.active {
-      display: flex;
-    }
-
-    /* Instrucciones */
-    .intro-box {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 10px;
-    }
-
-    .intro-text {
-      font-family: 'FuturaCustom', 'Outfit', sans-serif;
-      font-size: 1.25rem;
-      line-height: 1.5;
-      text-align: center;
-      text-align-last: center;
-      color: #ffffff;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-      font-weight: 600;
-      background: rgba(0, 119, 182, 0.35);
-      padding: 24px 20px;
-      border-radius: 20px;
-      border: 1px solid rgba(144, 224, 239, 0.4);
-    }
-
-    /* Jukebox Protagonista */
-    .jukebox-wrapper {
-      position: relative;
-      width: 100%;
-      max-width: 290px;
-      height: 350px;
-      background: linear-gradient(180deg, #0077b6 0%, #023e8a 100%);
-      border-radius: 145px 145px 24px 24px;
-      border: 5px solid #00f5d4;
-      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45), inset 0 0 25px rgba(0, 245, 212, 0.4);
-      display: flex;
-      flex-direction: column;
-      padding: 0 14px;
-      margin: 2px 0;
-      flex-shrink: 0;
-    }
-
-    .jukebox-arch {
-      position: absolute;
-      top: -3px;
-      left: -3px;
-      right: -3px;
-      height: 145px;
-      border-radius: 145px 145px 0 0;
-      border: 4px solid #90e0ef;
-      border-bottom: 2px solid #00f5d4;
-      box-shadow: 0 0 18px #90e0ef, inset 0 0 12px #00b4d8;
-      pointer-events: none;
-      animation: neonPulse 2s infinite alternate;
-    }
-
-    @keyframes neonPulse {
-      0% { filter: drop-shadow(0 0 3px #00f5d4); }
-      100% { filter: drop-shadow(0 0 12px #90e0ef); }
-    }
-
-    /* Cúpula Superior */
-    .jukebox-top-zone {
-      width: 100%;
-      height: 145px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      align-items: center;
-      padding-bottom: 12px;
-      z-index: 2;
-    }
-
-    /* Cristal Superior */
-    .jukebox-grill {
-      width: 75%;
-      height: 85px;
-      background: radial-gradient(circle, #101c38 20%, #03045e 80%);
-      border-radius: 28px 28px 16px 16px;
-      border: 2px solid #00f5d4;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 6px;
-      overflow: hidden;
-      position: relative;
-      box-shadow: inset 0 0 10px rgba(0,0,0,0.7);
-    }
-
-    .year-badge {
-      background: #00f5d4;
-      color: #03045e;
-      border-radius: 6px;
-      padding: 1px 12px;
-      font-weight: 900;
-      font-size: 0.85rem;
-      letter-spacing: 1.5px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.4);
-      text-align: center;
-    }
-
-    .record-disc {
-      width: 38px;
-      height: 38px;
-      background: radial-gradient(circle, #2b2b2b 30%, #000 70%);
-      border-radius: 50%;
-      border: 2px solid #555;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      box-shadow: 0 0 6px rgba(0,0,0,0.8);
-    }
-
-    .record-center {
-      width: 12px;
-      height: 12px;
-      background: #00f5d4;
-      border-radius: 50%;
-      border: 2px solid #fff;
-    }
-
-    /* Cuerpo Inferior */
-    .jukebox-bottom-zone {
-      width: 100%;
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 2;
-    }
-
-    /* Mini Reproductor de YouTube */
-    .youtube-frame-container {
-      width: 100%;
-      max-width: 230px;
-      height: 130px;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 2px solid #00f5d4;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
-      background: #000;
-    }
-
-    .youtube-frame-container iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    /* Caja de Pregunta */
-    .question-box {
-      width: 100%;
-      background: rgba(3, 4, 94, 0.45);
-      border: 1px solid rgba(144, 224, 239, 0.3);
-      border-radius: 14px;
-      padding: 10px 14px;
-      margin: 6px 0;
-      text-align: center;
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      box-shadow: inset 0 2px 6px rgba(0,0,0,0.3);
-    }
-
-    .question-title {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: #00f5d4;
-      font-weight: 800;
-      margin-bottom: 4px;
-    }
-
-    .question-text {
-      font-size: 0.95rem;
-      line-height: 1.35;
-      font-weight: 600;
-      color: #ffffff;
-    }
-
-    /* Botones principales */
-    .btn-main {
-      width: 100%;
-      padding: 13px;
-      border: none;
-      border-radius: 16px;
-      background: linear-gradient(135deg, #00f5d4 0%, #00bbf9 100%);
-      color: #03045e;
-      font-family: 'FuturaCustom', 'Outfit', sans-serif;
-      font-size: 1.05rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      cursor: pointer;
-      box-shadow: 0 6px 18px rgba(0, 245, 212, 0.4);
-      transition: all 0.2s ease;
-      text-decoration: none;
-      display: inline-block;
-      text-align: center;
-      flex-shrink: 0;
-    }
-
-    .btn-main:active {
-      transform: translateY(2px);
-      box-shadow: 0 3px 8px rgba(0, 245, 212, 0.4);
-    }
-
-    .btn-certitude {
-      background: linear-gradient(135deg, #48cae4 0%, #0077b6 100%);
-      color: #ffffff;
-      box-shadow: 0 6px 18px rgba(0, 119, 182, 0.5);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-    }
-
-    /* Pantalla Final */
-    .final-box {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 10px;
-    }
-
-    .final-badge {
-      font-size: 3.5rem;
-      margin-bottom: 10px;
-      animation: bounce 1.5s infinite alternate;
-    }
-
-    @keyframes bounce {
-      from { transform: translateY(0); }
-      to { transform: translateY(-10px); }
-    }
-
-    .final-text {
-      font-size: 1.05rem;
-      line-height: 1.4;
-      margin-bottom: 12px;
-      font-weight: 600;
-    }
-
-    .final-hint {
-      font-size: 0.85rem;
-      color: #caf0f8;
-      background: rgba(3, 4, 94, 0.4);
-      padding: 10px 14px;
-      border-radius: 12px;
-      margin-bottom: 15px;
-      border: 1px solid rgba(144, 224, 239, 0.3);
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>SUMMER JUKEBOX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&display=swap" rel="stylesheet">
+<style>
+@font-face {
+  font-family: 'FuturaCustom';
+  src: local('Futura-Medium'), local('Futura'), local('Trebuchet MS'), sans-serif;
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+html, body {
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  font-family: 'Outfit', sans-serif;
+  background: linear-gradient(135deg, #00b4d8 0%, #0077b6 40%, #03045e 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+/* Destellos aquamarina */
+.sunburst {
+  position: absolute;
+  width: 160vw;
+  height: 160vh;
+  background: repeating-conic-gradient(from 0deg, rgba(144, 224, 239, 0.1) 0deg 15deg, transparent 15deg 30deg);
+  animation: rotateSun 60s linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+@keyframes rotateSun {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+/* Contenedor Principal */
+.app-container {
+  position: relative;
+  z-index: 10;
+  width: 92%;
+  max-width: 430px;
+  height: 95vh;
+  height: 95dvh;
+  max-height: 820px;
+  background: rgba(3, 4, 94, 0.25);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 2px solid rgba(144, 224, 239, 0.4);
+  border-radius: 28px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.4);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+/* Cabecera con título perfectamente centrado */
+.header {
+  width: 100%;
+  height: 36px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.app-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'FuturaCustom', 'Outfit', sans-serif;
+  font-size: clamp(1.1rem, 4.5vw, 1.5rem);
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  background: linear-gradient(180deg, #ffffff 0%, #caf0f8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 10px rgba(0,180,216,0.5);
+}
+.lang-switch {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 180, 216, 0.25);
+  border: 1px solid rgba(144, 224, 239, 0.5);
+  border-radius: 20px;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 3px 9px;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+  z-index: 2;
+}
+.lang-switch:hover {
+  background: rgba(144, 224, 239, 0.4);
+  color: #03045e;
+}
+/* Pantallas */
+.screen {
+  width: 100%;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  flex-grow: 1;
+  margin: 6px 0;
+}
+.screen.active {
+  display: flex;
+}
+/* Instrucciones */
+.intro-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 10px;
+}
+.intro-text {
+  font-family: 'FuturaCustom', 'Outfit', sans-serif;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  text-align: center;
+  text-align-last: center;
+  color: #ffffff;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  font-weight: 600;
+  background: rgba(0, 119, 182, 0.35);
+  padding: 24px 20px;
+  border-radius: 20px;
+  border: 1px solid rgba(144, 224, 239, 0.4);
+}
+/* Jukebox Protagonista */
+.jukebox-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 290px;
+  height: 350px;
+  background: linear-gradient(180deg, #0077b6 0%, #023e8a 100%);
+  border-radius: 145px 145px 24px 24px;
+  border: 5px solid #00f5d4;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45), inset 0 0 25px rgba(0, 245, 212, 0.4);
+  display: flex;
+  flex-direction: column;
+  padding: 0 14px;
+  margin: 2px 0;
+  flex-shrink: 0;
+}
+.jukebox-arch {
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  height: 145px;
+  border-radius: 145px 145px 0 0;
+  border: 4px solid #90e0ef;
+  border-bottom: 2px solid #00f5d4;
+  box-shadow: 0 0 18px #90e0ef, inset 0 0 12px #00b4d8;
+  pointer-events: none;
+  animation: neonPulse 2s infinite alternate;
+}
+@keyframes neonPulse {
+  0% { filter: drop-shadow(0 0 3px #00f5d4); }
+  100% { filter: drop-shadow(0 0 12px #90e0ef); }
+}
+/* Cúpula Superior */
+.jukebox-top-zone {
+  width: 100%;
+  height: 145px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding-bottom: 12px;
+  z-index: 2;
+}
+/* Cristal Superior con radios superiores al doble */
+.jukebox-grill {
+  width: 75%;
+  height: 85px;
+  background: radial-gradient(circle, #101c38 20%, #03045e 80%);
+  border-radius: 56px 56px 16px 16px;
+  border: 2px solid #00f5d4;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.7);
+}
+.year-badge {
+  background: #00f5d4;
+  color: #03045e;
+  border-radius: 6px;
+  padding: 1px 12px;
+  font-weight: 900;
+  font-size: 0.85rem;
+  letter-spacing: 1.5px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+  text-align: center;
+}
+.record-disc {
+  width: 38px;
+  height: 38px;
+  background: radial-gradient(circle, #2b2b2b 30%, #000 70%);
+  border-radius: 50%;
+  border: 2px solid #555;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 6px rgba(0,0,0,0.8);
+}
+.record-center {
+  width: 12px;
+  height: 12px;
+  background: #00f5d4;
+  border-radius: 50%;
+  border: 2px solid #fff;
+}
+/* Cuerpo Inferior */
+.jukebox-bottom-zone {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+/* Mini Reproductor de YouTube */
+.youtube-frame-container {
+  width: 100%;
+  max-width: 230px;
+  height: 130px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid #00f5d4;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+  background: #000;
+}
+.youtube-frame-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+/* Caja de Pregunta */
+.question-box {
+  width: 100%;
+  background: rgba(3, 4, 94, 0.45);
+  border: 1px solid rgba(144, 224, 239, 0.3);
+  border-radius: 14px;
+  padding: 10px 14px;
+  margin: 6px 0;
+  text-align: center;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.3);
+}
+.question-title {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #00f5d4;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+.question-text {
+  font-size: 0.95rem;
+  line-height: 1.35;
+  font-weight: 600;
+  color: #ffffff;
+}
+/* Botones principales */
+.btn-main {
+  width: 100%;
+  padding: 13px;
+  border: none;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #00f5d4 0%, #00bbf9 100%);
+  color: #03045e;
+  font-family: 'FuturaCustom', 'Outfit', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 245, 212, 0.4);
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  flex-shrink: 0;
+}
+.btn-main:active {
+  transform: translateY(2px);
+  box-shadow: 0 3px 8px rgba(0, 245, 212, 0.4);
+}
+.btn-certitude {
+  background: linear-gradient(135deg, #48cae4 0%, #0077b6 100%);
+  color: #ffffff;
+  box-shadow: 0 6px 18px rgba(0, 119, 182, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+/* Pantalla Final */
+.final-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 10px;
+}
+.final-badge {
+  font-size: 3.5rem;
+  margin-bottom: 10px;
+  animation: bounce 1.5s infinite alternate;
+}
+@keyframes bounce {
+  from { transform: translateY(0); }
+  to { transform: translateY(-10px); }
+}
+.final-text {
+  font-size: 1.05rem;
+  line-height: 1.4;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+.final-hint {
+  font-size: 0.85rem;
+  color: #caf0f8;
+  background: rgba(3, 4, 94, 0.4);
+  padding: 10px 14px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  border: 1px solid rgba(144, 224, 239, 0.3);
+}
+</style>
 </head>
 <body>
 
-  <div class="sunburst"></div>
+<div class="sunburst"></div>
 
-  <div class="app-container">
-    <!-- Header -->
-    <div class="header">
-      <div class="app-title">SUMMER JUKEBOX</div>
-      <button class="lang-switch" id="langBtn" onclick="toggleLanguage()">EN</button>
-    </div>
-
-    <!-- SCREEN 1: INTRO -->
-    <div class="screen active" id="screenIntro">
-      <div class="intro-box">
-        <p class="intro-text" id="txtIntro">Usa Wikipedia para averiguar las respuestas.</p>
-      </div>
-      <button class="btn-main" id="btnStart" onclick="startJukebox()">COMENZAR</button>
-    </div>
-
-    <!-- SCREEN 2: JUKEBOX PLAYER -->
-    <div class="screen" id="screenJukebox">
-      <div class="jukebox-wrapper">
-        <div class="jukebox-arch"></div>
-        
-        <!-- Cúpula Superior -->
-        <div class="jukebox-top-zone">
-          <div class="jukebox-grill">
-            <div class="year-badge" id="yearBadge">2017</div>
-            <div class="record-disc">
-              <div class="record-center"></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Cuerpo Inferior -->
-        <div class="jukebox-bottom-zone">
-          <div class="youtube-frame-container">
-            <iframe id="ytPlayer" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-          </div>
-        </div>
-      </div>
-
-      <!-- Pregunta -->
-      <div class="question-box">
-        <div class="question-title" id="lblQuestion">Pregunta</div>
-        <div class="question-text" id="txtQuestion">¿Cuántos segundos dura el audio original?</div>
-      </div>
-
-      <!-- Botón Siguiente -->
-      <button class="btn-main" id="btnNext" onclick="nextSong()">SIGUIENTE</button>
-    </div>
-
-    <!-- SCREEN 3: FINAL CERTITUDE LINK -->
-    <div class="screen" id="screenFinal">
-      <div class="final-box">
-        <div class="final-badge">🌊</div>
-        <p class="final-text" id="txtFinal">¡Has completado el recorrido musical!</p>
-        <p class="final-hint" id="txtHint">Introduce tus respuestas separadas por guiones medios (-) en Certitude para obtener las coordenadas finales.</p>
-      </div>
-      <a href="https://www.certitudes.org/certitude?wp=GCBWER3" target="_blank" rel="noopener" class="btn-main btn-certitude" id="btnCertitude">COMPROBAR EN CERTITUDE</a>
-    </div>
+<div class="app-container">
+  <!-- Header -->
+  <div class="header">
+    <div class="app-title">SUMMER JUKEBOX</div>
+    <button class="lang-switch" id="langBtn" onclick="toggleLanguage()">EN</button>
   </div>
 
-  <script>
-    const quizData = [
-      {
-        year: "2017",
-        youtubeId: "kJQP7kiw5Fk", // Despacito
-        q: {
-          es: "¿Cuántos segundos dura el audio original?",
-          en: "How many seconds does the original audio last?"
-        }
-      }
-    ];
+  <!-- SCREEN 1: INTRO -->
+  <div class="screen active" id="screenIntro">
+    <div class="intro-box">
+      <p class="intro-text" id="txtIntro">Usa Wikipedia para averiguar las respuestas.</p>
+    </div>
+    <button class="btn-main" id="btnStart" onclick="startJukebox()">COMENZAR</button>
+  </div>
 
-    const translations = {
-      es: {
-        intro: "Usa Wikipedia para averiguar las respuestas.",
-        start: "COMENZAR",
-        questionLbl: "PREGUNTA",
-        next: "SIGUIENTE",
-        final: "¡Has completado el recorrido musical!",
-        hint: "Anota tus respuestas y colócalas separadas por guiones medios (-) en Certitude.",
-        certitudeBtn: "COMPROBAR EN CERTITUDE"
-      },
-      en: {
-        intro: "Use Wikipedia to find out the answers.",
-        start: "START",
-        questionLbl: "QUESTION",
-        next: "NEXT",
-        final: "You have completed the musical quiz!",
-        hint: "Write down your answers and enter them separated by hyphens (-) in Certitude.",
-        certitudeBtn: "CHECK ON CERTITUDE"
-      }
-    };
+  <!-- SCREEN 2: JUKEBOX PLAYER -->
+  <div class="screen" id="screenJukebox">
+    <div class="jukebox-wrapper">
+      <div class="jukebox-arch"></div>
+      
+      <!-- Cúpula Superior -->
+      <div class="jukebox-top-zone">
+        <div class="jukebox-grill">
+          <div class="year-badge" id="yearBadge">2017</div>
+          <div class="record-disc">
+            <div class="record-center"></div>
+          </div>
+        </div>
+      </div>
 
-    let currentLang = 'es';
-    let currentIndex = 0;
+      <!-- Cuerpo Inferior -->
+      <div class="jukebox-bottom-zone">
+        <div class="youtube-frame-container">
+          <iframe id="ytPlayer" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
 
-    function toggleLanguage() {
-      currentLang = currentLang === 'es' ? 'en' : 'es';
-      document.getElementById('langBtn').innerText = currentLang === 'es' ? 'EN' : 'ES';
-      updateI18n();
+    <!-- Pregunta -->
+    <div class="question-box">
+      <div class="question-title" id="lblQuestion">Pregunta</div>
+      <div class="question-text" id="txtQuestion">¿Cuántos segundos dura el audio original?</div>
+    </div>
+
+    <!-- Botón Siguiente -->
+    <button class="btn-main" id="btnNext" onclick="nextSong()">SIGUIENTE</button>
+  </div>
+
+  <!-- SCREEN 3: FINAL CERTITUDE LINK -->
+  <div class="screen" id="screenFinal">
+    <div class="final-box">
+      <div class="final-badge">🌊</div>
+      <p class="final-text" id="txtFinal">¡Has completado el recorrido musical!</p>
+      <p class="final-hint" id="txtHint">Introduce tus respuestas separadas por guiones medios (-) en Certitude para obtener las coordenadas finales.</p>
+    </div>
+    <a href="https://www.certitudes.org/certitude?wp=GCBWER3" target="_blank" rel="noopener" class="btn-main btn-certitude" id="btnCertitude">COMPROBAR EN CERTITUDE</a>
+  </div>
+</div>
+
+<script>
+const quizData = [
+  {
+    year: "2017",
+    youtubeId: "kJQP7kiw5Fk", // Despacito
+    q: {
+      es: "¿Cuántos segundos dura el audio original?",
+      en: "How many seconds does the original audio last?"
     }
+  }
+];
 
-    function updateI18n() {
-      const t = translations[currentLang];
-      document.getElementById('txtIntro').innerText = t.intro;
-      document.getElementById('btnStart').innerText = t.start;
-      document.getElementById('lblQuestion').innerText = t.questionLbl;
-      document.getElementById('btnNext').innerText = t.next;
-      document.getElementById('txtFinal').innerText = t.final;
-      document.getElementById('txtHint').innerText = t.hint;
-      document.getElementById('btnCertitude').innerText = t.certitudeBtn;
-      if (quizData[currentIndex]) {
-        document.getElementById('txtQuestion').innerText = quizData[currentIndex].q[currentLang];
-      }
-    }
+const translations = {
+  es: {
+    intro: "Usa Wikipedia para averiguar las respuestas.",
+    start: "COMENZAR",
+    questionLbl: "PREGUNTA",
+    next: "SIGUIENTE",
+    final: "¡Has completado el recorrido musical!",
+    hint: "Anota tus respuestas y colócalas separadas por guiones medios (-) en Certitude.",
+    certitudeBtn: "COMPROBAR EN CERTITUDE"
+  },
+  en: {
+    intro: "Use Wikipedia to find out the answers.",
+    start: "START",
+    questionLbl: "QUESTION",
+    next: "NEXT",
+    final: "You have completed the musical quiz!",
+    hint: "Write down your answers and enter them separated by hyphens (-) in Certitude.",
+    certitudeBtn: "CHECK ON CERTITUDE"
+  }
+};
 
-    function startJukebox() {
-      document.getElementById('screenIntro').classList.remove('active');
-      document.getElementById('screenJukebox').classList.add('active');
-      currentIndex = 0;
-      loadSong(currentIndex);
-    }
+let currentLang = 'es';
+let currentIndex = 0;
 
-    function loadSong(index) {
-      if (index >= quizData.length) {
-        document.getElementById('ytPlayer').src = "";
-        document.getElementById('screenJukebox').classList.remove('active');
-        document.getElementById('screenFinal').classList.add('active');
-        return;
-      }
-      const item = quizData[index];
-      document.getElementById('yearBadge').innerText = item.year;
-      document.getElementById('txtQuestion').innerText = item.q[currentLang];
-      document.getElementById('ytPlayer').src = `https://www.youtube.com/embed/${item.youtubeId}?autoplay=1&controls=0&cc_load_policy=0&iv_load_policy=3&playsinline=1&rel=0`;
-    }
+function toggleLanguage() {
+  currentLang = currentLang === 'es' ? 'en' : 'es';
+  document.getElementById('langBtn').innerText = currentLang === 'es' ? 'EN' : 'ES';
+  updateI18n();
+}
 
-    function nextSong() {
-      currentIndex++;
-      loadSong(currentIndex);
-    }
-  </script>
+function updateI18n() {
+  const t = translations[currentLang];
+  document.getElementById('txtIntro').innerText = t.intro;
+  document.getElementById('btnStart').innerText = t.start;
+  document.getElementById('lblQuestion').innerText = t.questionLbl;
+  document.getElementById('btnNext').innerText = t.next;
+  document.getElementById('txtFinal').innerText = t.final;
+  document.getElementById('txtHint').innerText = t.hint;
+  document.getElementById('btnCertitude').innerText = t.certitudeBtn;
+  
+  if (quizData[currentIndex]) {
+    document.getElementById('txtQuestion').innerText = quizData[currentIndex].q[currentLang];
+  }
+}
+
+function startJukebox() {
+  document.getElementById('screenIntro').classList.remove('active');
+  document.getElementById('screenJukebox').classList.add('active');
+  currentIndex = 0;
+  loadSong(currentIndex);
+}
+
+function loadSong(index) {
+  if (index >= quizData.length) {
+    document.getElementById('ytPlayer').src = "";
+    document.getElementById('screenJukebox').classList.remove('active');
+    document.getElementById('screenFinal').classList.add('active');
+    return;
+  }
+  
+  const item = quizData[index];
+  document.getElementById('yearBadge').innerText = item.year;
+  document.getElementById('txtQuestion').innerText = item.q[currentLang];
+  document.getElementById('ytPlayer').src = `https://www.youtube.com/embed/${item.youtubeId}?autoplay=1&controls=0&cc_load_policy=0&iv_load_policy=3&playsinline=1&rel=0`;
+}
+
+function nextSong() {
+  currentIndex++;
+  loadSong(currentIndex);
+}
+</script>
+
 </body>
 </html>
