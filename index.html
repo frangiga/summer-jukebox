@@ -27,7 +27,6 @@
       height: 100dvh;
       overflow: hidden;
       font-family: 'Outfit', sans-serif;
-      /* Gradiente turquesa/azul playa y piscina */
       background: linear-gradient(135deg, #00b4d8 0%, #0077b6 40%, #03045e 100%);
       display: flex;
       justify-content: center;
@@ -176,17 +175,17 @@
     .jukebox-wrapper {
       position: relative;
       width: 100%;
-      max-width: 280px;
-      height: 310px;
+      max-width: 290px;
+      height: 330px;
       background: linear-gradient(180deg, #0077b6 0%, #023e8a 100%);
-      border-radius: 140px 140px 24px 24px;
+      border-radius: 145px 145px 24px 24px;
       border: 5px solid #00f5d4;
       box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45), inset 0 0 25px rgba(0, 245, 212, 0.4);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
-      padding: 18px 14px 18px 14px;
+      padding: 16px 14px 14px 14px;
       margin: 2px 0;
       flex-shrink: 0;
     }
@@ -196,8 +195,8 @@
       top: -3px;
       left: -3px;
       right: -3px;
-      height: 140px;
-      border-radius: 140px 140px 0 0;
+      height: 145px;
+      border-radius: 145px 145px 0 0;
       border: 4px solid #90e0ef;
       box-shadow: 0 0 18px #90e0ef, inset 0 0 12px #00b4d8;
       pointer-events: none;
@@ -209,25 +208,26 @@
       100% { filter: drop-shadow(0 0 12px #90e0ef); }
     }
 
-    /* Cristal Centrado con margen uniforme alrededor */
+    /* Cristal Centrado */
     .jukebox-grill {
-      width: 78%;
-      height: 105px;
+      width: 76%;
+      height: 95px;
       background: radial-gradient(circle, #101c38 20%, #03045e 80%);
-      border-radius: 48px 48px 16px 16px;
+      border-radius: 45px 45px 16px 16px;
       border: 3px solid #00f5d4;
       display: flex;
       justify-content: center;
       align-items: center;
       overflow: hidden;
       position: relative;
-      margin: 4px auto 8px auto;
+      margin: 2px auto 4px auto;
       box-shadow: inset 0 0 10px rgba(0,0,0,0.6);
+      flex-shrink: 0;
     }
 
     .record-disc {
-      width: 76px;
-      height: 76px;
+      width: 70px;
+      height: 70px;
       background: radial-gradient(circle, #2b2b2b 30%, #000 70%);
       border-radius: 50%;
       border: 2px solid #555;
@@ -237,82 +237,62 @@
       box-shadow: 0 0 10px rgba(0,0,0,0.8);
     }
 
-    .record-disc.playing {
-      animation: spinRecord 2.5s linear infinite;
-    }
-
-    @keyframes spinRecord {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
     .record-center {
-      width: 26px;
-      height: 26px;
+      width: 24px;
+      height: 24px;
       background: #00f5d4;
       border-radius: 50%;
       border: 2px solid #fff;
     }
 
-    /* Área inferior de la Jukebox: Año + Botonera integrada */
-    .jukebox-controls-area {
+    /* Sección de Reproductor e Insignia Integrados */
+    .jukebox-player-area {
       width: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      gap: 10px;
+      gap: 8px;
       z-index: 2;
     }
 
     .year-badge {
       background: #03045e;
       border: 2px solid #00f5d4;
-      border-radius: 14px;
-      padding: 4px 22px;
+      border-radius: 12px;
+      padding: 2px 18px;
       font-weight: 900;
-      font-size: 1.25rem;
+      font-size: 1.15rem;
       color: #00f5d4;
       letter-spacing: 2px;
       box-shadow: 0 3px 10px rgba(0,0,0,0.5);
       text-align: center;
     }
 
-    /* Controles integrados */
-    .controls {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 14px;
+    /* Mini Reproductor de YouTube integrado */
+    .youtube-frame-container {
+      width: 100%;
+      max-width: 240px;
+      height: 130px;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 2px solid #00f5d4;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+      background: #000;
     }
 
-    .btn-audio {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      border: 2px solid #fff;
-      background: linear-gradient(145deg, #00f5d4, #00bbf9);
-      color: #03045e;
-      font-size: 1.1rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0, 187, 249, 0.4);
-      transition: transform 0.15s ease, background 0.2s;
+    .youtube-frame-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
     }
 
-    .btn-audio:active {
-      transform: scale(0.92);
-    }
-
-    /* Caja de Pregunta - Borde lateral eliminado */
+    /* Caja de Pregunta */
     .question-box {
       width: 100%;
       background: rgba(3, 4, 94, 0.45);
       border: 1px solid rgba(144, 224, 239, 0.3);
       border-radius: 14px;
-      padding: 12px 14px;
+      padding: 10px 14px;
       margin: 6px 0;
       text-align: center;
       flex-grow: 1;
@@ -441,25 +421,23 @@
       <div class="jukebox-wrapper">
         <div class="jukebox-arch"></div>
         
-        <!-- Cristal Centrado con separación uniforme -->
+        <!-- Cristal Centrado -->
         <div class="jukebox-grill">
-          <div class="record-disc" id="recordDisc">
+          <div class="record-disc">
             <div class="record-center"></div>
           </div>
         </div>
 
-        <!-- Área de Control Integrada en la Jukebox -->
-        <div class="jukebox-controls-area">
+        <!-- Área de Reproductor e Insignia del Año -->
+        <div class="jukebox-player-area">
           <div class="year-badge" id="yearBadge">2017</div>
-          <div class="controls">
-            <button class="btn-audio" onclick="playAudio()" title="Play">▶</button>
-            <button class="btn-audio" onclick="pauseAudio()" title="Pause">❚❚</button>
-            <button class="btn-audio" onclick="stopAudio()" title="Stop">◼</button>
+          <div class="youtube-frame-container">
+            <iframe id="ytPlayer" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
           </div>
         </div>
       </div>
 
-      <!-- Pregunta limpia sin borde lateral azul/celeste -->
+      <!-- Pregunta -->
       <div class="question-box">
         <div class="question-title" id="lblQuestion">Pregunta</div>
         <div class="question-text" id="txtQuestion">¿Cuántos segundos dura la versión vídeo?</div>
@@ -481,15 +459,23 @@
   </div>
 
   <script>
+    // Configuración de Canciones y Vídeos por ID de YouTube
     const quizData = [
       {
         year: "2017",
-        audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+        youtubeId: "kJQP7kiw5Fk", // Despacito - Luis Fonsi ft. Daddy Yankee
         q: {
           es: "¿Cuántos segundos dura la versión vídeo?",
           en: "How many seconds does the video version last?"
         }
       }
+      /* Aquí podrás añadir los siguientes años añadiendo sólo el ID del vídeo de YouTube:
+      ,{
+        year: "2018",
+        youtubeId: "ID_DEL_VIDEO",
+        q: { es: "Pregunta en español", en: "Question in English" }
+      }
+      */
     ];
 
     const translations = {
@@ -515,8 +501,6 @@
 
     let currentLang = 'es';
     let currentIndex = 0;
-    let audioPlayer = new Audio();
-    let isPlaying = false;
 
     function toggleLanguage() {
       currentLang = currentLang === 'es' ? 'en' : 'es';
@@ -547,7 +531,7 @@
 
     function loadSong(index) {
       if (index >= quizData.length) {
-        stopAudio();
+        document.getElementById('ytPlayer').src = "";
         document.getElementById('screenJukebox').classList.remove('active');
         document.getElementById('screenFinal').classList.add('active');
         return;
@@ -555,40 +539,15 @@
       const item = quizData[index];
       document.getElementById('yearBadge').innerText = item.year;
       document.getElementById('txtQuestion').innerText = item.q[currentLang];
-      audioPlayer.src = item.audioUrl;
-      playAudio();
-    }
-
-    function playAudio() {
-      if (!audioPlayer.src) return;
-      audioPlayer.play().then(() => {
-        isPlaying = true;
-        document.getElementById('recordDisc').classList.add('playing');
-      }).catch(e => console.log("Autoplay blocked or link missing", e));
-    }
-
-    function pauseAudio() {
-      audioPlayer.pause();
-      isPlaying = false;
-      document.getElementById('recordDisc').classList.remove('playing');
-    }
-
-    function stopAudio() {
-      audioPlayer.pause();
-      audioPlayer.currentTime = 0;
-      isPlaying = false;
-      document.getElementById('recordDisc').classList.remove('playing');
+      
+      // Inserción del iframe de YouTube optimizado
+      document.getElementById('ytPlayer').src = `https://www.youtube.com/embed/${item.youtubeId}?autoplay=1&rel=0`;
     }
 
     function nextSong() {
-      stopAudio();
       currentIndex++;
       loadSong(currentIndex);
     }
-
-    audioPlayer.onended = function() {
-      document.getElementById('recordDisc').classList.remove('playing');
-    };
   </script>
 </body>
 </html>
