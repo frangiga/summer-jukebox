@@ -148,7 +148,7 @@ html, body {
   border-radius: 20px;
   border: 1px solid rgba(144, 224, 239, 0.4);
 }
-/* Jukebox Limpia sin capas fantasma */
+/* Jukebox Limpia */
 .jukebox-wrapper {
   position: relative;
   width: 100%;
@@ -194,7 +194,7 @@ html, body {
   box-shadow: inset 0 0 10px rgba(0,0,0,0.7);
 }
 
-/* Separador Horizontal que de borde a borde */
+/* Separador Horizontal Continuo */
 .jukebox-divider {
   width: calc(100% + 28px);
   margin-left: -14px;
@@ -266,7 +266,7 @@ html, body {
   background: rgba(3, 4, 94, 0.45);
   border: 1px solid rgba(144, 224, 239, 0.3);
   border-radius: 14px;
-  padding: clamp(8px, 1.5vh, 12px) 14px;
+  padding: clamp(10px, 2vh, 14px) 14px;
   margin: 6px 0;
   text-align: center;
   flex-grow: 1;
@@ -277,18 +277,27 @@ html, body {
   box-shadow: inset 0 2px 6px rgba(0,0,0,0.3);
 }
 .question-title {
-  font-size: clamp(0.65rem, 2vw, 0.75rem);
+  font-size: clamp(0.7rem, 2.2vw, 0.8rem);
   text-transform: uppercase;
   letter-spacing: 1.5px;
   color: #00f5d4;
   font-weight: 800;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 .question-text {
-  font-size: clamp(0.85rem, 2.8vw, 0.95rem);
-  line-height: 1.35;
-  font-weight: 600;
+  font-size: clamp(1.05rem, 3.6vw, 1.25rem);
+  line-height: 1.3;
+  font-weight: 800;
   color: #ffffff;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.5);
+}
+.question-note {
+  display: block;
+  font-size: clamp(0.8rem, 2.6vw, 0.9rem);
+  font-weight: 600;
+  color: #caf0f8;
+  margin-top: 5px;
+  opacity: 0.9;
 }
 /* Botones principales */
 .btn-main {
@@ -403,7 +412,7 @@ html, body {
     <!-- Pregunta -->
     <div class="question-box">
       <div class="question-title" id="lblQuestion">Pregunta</div>
-      <div class="question-text" id="txtQuestion">¿Cuántos segundos dura el audio original?</div>
+      <div class="question-text" id="txtQuestion"></div>
     </div>
 
     <!-- Botón Siguiente -->
@@ -429,14 +438,22 @@ const quizData = [
     q: {
       es: "¿Cuántos segundos dura el audio original?",
       en: "How many seconds does the original audio last?"
+    },
+    note: {
+      es: "",
+      en: ""
     }
   },
   {
     year: "2018",
     youtubeId: "v-vEut6ksGU", // Sin Pijama (Audio Oficial VEVO)
     q: {
-      es: "¿Fecha de publicación? (DíaMes, formato: 0000)",
-      en: "Release date? (DayMonth, format: 0000)"
+      es: "¿Fecha de publicación?",
+      en: "Release date?"
+    },
+    note: {
+      es: "(DíaMes, formato: 0000)",
+      en: "(DayMonth, format: 0000)"
     }
   }
 ];
@@ -482,7 +499,7 @@ function updateI18n() {
   document.getElementById('btnCertitude').innerText = t.certitudeBtn;
   
   if (quizData[currentIndex]) {
-    document.getElementById('txtQuestion').innerText = quizData[currentIndex].q[currentLang];
+    renderQuestion(quizData[currentIndex]);
   }
 }
 
@@ -491,6 +508,17 @@ function startJukebox() {
   document.getElementById('screenJukebox').classList.add('active');
   currentIndex = 0;
   loadSong(currentIndex);
+}
+
+function renderQuestion(item) {
+  const mainText = item.q[currentLang];
+  const noteText = item.note[currentLang];
+  
+  if (noteText) {
+    document.getElementById('txtQuestion').innerHTML = `${mainText}<span class="question-note">${noteText}</span>`;
+  } else {
+    document.getElementById('txtQuestion').innerText = mainText;
+  }
 }
 
 function loadSong(index) {
@@ -503,7 +531,7 @@ function loadSong(index) {
   
   const item = quizData[index];
   document.getElementById('yearBadge').innerText = item.year;
-  document.getElementById('txtQuestion').innerText = item.q[currentLang];
+  renderQuestion(item);
   document.getElementById('ytPlayer').src = `https://www.youtube.com/embed/${item.youtubeId}?autoplay=1&controls=0&cc_load_policy=0&iv_load_policy=3&playsinline=1&rel=0`;
 }
 
