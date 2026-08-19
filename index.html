@@ -54,27 +54,6 @@
       to { transform: rotate(360deg); }
     }
 
-    /* Elementos flotantes temáticos optimizados para no tapar el marco */
-    .palm-leaf {
-      position: absolute;
-      font-size: 2.2rem;
-      opacity: 0.22;
-      pointer-events: none;
-      z-index: 1;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
-    }
-    .palm-leaf.top-left { top: 6px; left: 6px; transform: rotate(-20deg); }
-    .palm-leaf.top-right { top: 6px; right: 55px; transform: rotate(60deg); }
-    .palm-leaf.bottom-left { bottom: 8px; left: 8px; transform: rotate(-70deg); }
-    .palm-leaf.bottom-right { bottom: 8px; right: 8px; transform: rotate(20deg); }
-
-    /* Ocultar iconos inferiores si el espacio es muy estrecho */
-    @media (max-height: 680px) {
-      .palm-leaf.bottom-left, .palm-leaf.bottom-right {
-        display: none;
-      }
-    }
-
     /* Contenedor Principal */
     .app-container {
       position: relative;
@@ -97,20 +76,22 @@
       align-items: center;
     }
 
-    /* Cabecera adaptada sin solapamientos */
+    /* Cabecera con título perfectamente centrado */
     .header {
       width: 100%;
+      height: 36px;
       position: relative;
       display: flex;
-      justify-content: center;
       align-items: center;
       flex-shrink: 0;
-      padding-right: 48px; /* Hueco reservado para que el botón EN/ES no pise las letras */
     }
 
     .app-title {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
       font-family: 'FuturaCustom', 'Outfit', sans-serif;
-      font-size: clamp(1.15rem, 5vw, 1.55rem);
+      font-size: clamp(1.1rem, 4.5vw, 1.5rem);
       font-weight: 900;
       letter-spacing: 1.5px;
       text-transform: uppercase;
@@ -123,8 +104,8 @@
 
     .lang-switch {
       position: absolute;
-      top: 50%;
       right: 0;
+      top: 50%;
       transform: translateY(-50%);
       background: rgba(0, 180, 216, 0.25);
       border: 1px solid rgba(144, 224, 239, 0.5);
@@ -136,6 +117,7 @@
       cursor: pointer;
       outline: none;
       transition: all 0.2s ease;
+      z-index: 2;
     }
 
     .lang-switch:hover {
@@ -220,7 +202,7 @@
       100% { filter: drop-shadow(0 0 12px #90e0ef); }
     }
 
-    /* Zona Superior - Distribución con aire en la cúpula */
+    /* Cúpula Superior */
     .jukebox-top-zone {
       width: 100%;
       height: 145px;
@@ -281,7 +263,7 @@
       border: 2px solid #fff;
     }
 
-    /* Zona Inferior - Cuerpo */
+    /* Cuerpo Inferior */
     .jukebox-bottom-zone {
       width: 100%;
       flex: 1;
@@ -419,13 +401,9 @@
 <body>
 
   <div class="sunburst"></div>
-  <div class="palm-leaf top-left">🌴</div>
-  <div class="palm-leaf top-right">🌴</div>
-  <div class="palm-leaf bottom-left">🌊</div>
-  <div class="palm-leaf bottom-right">🏖️</div>
 
   <div class="app-container">
-    <!-- Header con ancho de protección -->
+    <!-- Header -->
     <div class="header">
       <div class="app-title">SUMMER JUKEBOX</div>
       <button class="lang-switch" id="langBtn" onclick="toggleLanguage()">EN</button>
