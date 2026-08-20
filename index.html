@@ -34,7 +34,6 @@
             color: #fff;
         }
 
-        /* Destellos aquamarina */
         .sunburst {
             position: absolute;
             width: 160vw;
@@ -50,7 +49,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Contenedor Principal Optimizado */
         .app-container {
             position: relative;
             z-index: 10;
@@ -72,7 +70,6 @@
             align-items: center;
         }
 
-        /* Cabecera con título perfectamente centrado */
         .header {
             width: 100%;
             height: 36px;
@@ -121,7 +118,6 @@
             color: #03045e;
         }
 
-        /* Pantallas */
         .screen {
             width: 100%;
             display: none;
@@ -136,7 +132,6 @@
             display: flex;
         }
 
-        /* Instrucciones */
         .intro-box {
             flex: 1;
             display: flex;
@@ -162,7 +157,6 @@
             border: 1px solid rgba(144, 224, 239, 0.4);
         }
 
-        /* Jukebox Limpia */
         .jukebox-wrapper {
             position: relative;
             width: 100%;
@@ -180,7 +174,6 @@
             overflow: hidden;
         }
 
-        /* Cúpula Superior centrada */
         .jukebox-top-zone {
             width: 100%;
             height: clamp(110px, 18vh, 145px);
@@ -191,7 +184,6 @@
             z-index: 2;
         }
 
-        /* Cristal Superior */
         .jukebox-grill {
             width: 75%;
             height: clamp(65px, 11vh, 85px);
@@ -208,7 +200,6 @@
             box-shadow: inset 0 0 10px rgba(0,0,0,0.7);
         }
 
-        /* Separador Horizontal Continuo */
         .jukebox-divider {
             width: calc(100% + 28px);
             margin-left: -14px;
@@ -260,7 +251,6 @@
             border: 2px solid #fff;
         }
 
-        /* Cuerpo Inferior */
         .jukebox-bottom-zone {
             width: 100%;
             flex: 1;
@@ -271,7 +261,6 @@
             padding: 10px;
         }
 
-        /* Mini Reproductor de Audio HTML5 */
         .audio-frame-container {
             width: 100%;
             max-width: 250px;
@@ -291,7 +280,6 @@
             outline: none;
         }
 
-        /* Caja de Pregunta */
         .question-box {
             width: 100%;
             background: rgba(3, 4, 94, 0.45);
@@ -334,7 +322,6 @@
             opacity: 0.9;
         }
 
-        /* Botones principales */
         .btn-main {
             width: 100%;
             padding: clamp(10px, 1.8vh, 13px);
@@ -368,7 +355,6 @@
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
-        /* Pantalla Final */
         .final-box {
             flex: 1;
             display: flex;
@@ -428,7 +414,6 @@
         <!-- SCREEN 2: JUKEBOX PLAYER -->
         <div class="screen" id="screenJukebox">
             <div class="jukebox-wrapper">
-                <!-- Cúpula Superior -->
                 <div class="jukebox-top-zone">
                     <div class="jukebox-grill">
                         <div class="year-badge" id="yearBadge">2017</div>
@@ -438,10 +423,8 @@
                     </div>
                 </div>
 
-                <!-- Separador Horizontal Continuo -->
                 <div class="jukebox-divider"></div>
 
-                <!-- Cuerpo Inferior -->
                 <div class="jukebox-bottom-zone">
                     <div class="audio-frame-container">
                         <audio id="audioPlayer" controls preload="auto"></audio>
@@ -449,13 +432,11 @@
                 </div>
             </div>
 
-            <!-- Pregunta -->
             <div class="question-box">
                 <div class="question-title" id="lblQuestion">Pregunta</div>
                 <div class="question-text" id="txtQuestion"></div>
             </div>
 
-            <!-- Botón Siguiente -->
             <button class="btn-main" id="btnNext" onclick="nextSong()">SIGUIENTE</button>
         </div>
 
@@ -474,10 +455,10 @@
         const quizData = [
             {
                 year: "2017",
-                audioUrl: "./2017.mp3",
+                audioUrl: "2017.mp3",
                 q: {
-                    es: "¿Cuántos segundos dura el audio original?",
-                    en: "How many seconds does the original audio last?"
+                    es: "¿Cuántos segundos dura el vídeo original?",
+                    en: "How many seconds does the original video last?"
                 },
                 note: {
                     es: "",
@@ -486,7 +467,7 @@
             },
             {
                 year: "2018",
-                audioUrl: "./2018.mp3",
+                audioUrl: "2018.mp3",
                 q: {
                     es: "¿Fecha de publicación?",
                     en: "Release date?"
@@ -498,7 +479,7 @@
             },
             {
                 year: "2019",
-                audioUrl: "./2019.mp3",
+                audioUrl: "2019.mp3",
                 q: {
                     es: "¿Qué discográfica la publicó?",
                     en: "Which record label released it?"
@@ -510,7 +491,7 @@
             },
             {
                 year: "2020",
-                audioUrl: "./2020.mp3",
+                audioUrl: "2020.mp3",
                 q: {
                     es: "¿Nombre del álbum en el que apareció?",
                     en: "Name of the album in which it appeared?"
@@ -522,7 +503,7 @@
             },
             {
                 year: "2021",
-                audioUrl: "./2021.mp3",
+                audioUrl: "2021.mp3",
                 q: {
                     es: "¿Puesto que alcanzó en la lista Billboard Hot 100 en EE. UU.?",
                     en: "Peak position on the US Billboard Hot 100 chart?"
@@ -534,7 +515,7 @@
             },
             {
                 year: "2022",
-                audioUrl: "./2022.mp3",
+                audioUrl: "2022.mp3",
                 q: {
                     es: "¿Cuántos segundos dura?",
                     en: "How many seconds long is it?"
@@ -573,7 +554,6 @@
         const audioPlayer = document.getElementById('audioPlayer');
         const recordDisc = document.getElementById('recordDisc');
 
-        // Animación del vinilo vinculada al estado de reproducción del audio
         audioPlayer.addEventListener('play', () => recordDisc.classList.add('playing'));
         audioPlayer.addEventListener('pause', () => recordDisc.classList.remove('playing'));
         audioPlayer.addEventListener('ended', () => recordDisc.classList.remove('playing'));
@@ -630,8 +610,17 @@
             renderQuestion(item);
 
             if (item.audioUrl) {
+                audioPlayer.pause();
                 audioPlayer.src = item.audioUrl;
-                audioPlayer.play().catch(e => console.log("Autoplay bloqueado por el navegador:", e));
+                audioPlayer.load(); // Fuerza al navegador a cargar los metadatos del archivo
+                
+                // Intenta reproducir tras la interacción del usuario
+                const playPromise = audioPlayer.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(e => {
+                        console.log("Esperando interacción para reproducción o archivo no encontrado:", e);
+                    });
+                }
             } else {
                 audioPlayer.src = "";
             }
