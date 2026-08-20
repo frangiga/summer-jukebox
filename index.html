@@ -474,7 +474,7 @@
         const quizData = [
             {
                 year: "2017",
-                audioUrl: "https://app.box.com/shared/static/yyw18uk3w89x8q5v0ctfjhh4ibda927c.mp3", // Enlace de Box adaptado para audio directo
+                audioUrl: "./2017.mp3",
                 q: {
                     es: "¿Cuántos segundos dura el audio original?",
                     en: "How many seconds does the original audio last?"
@@ -486,7 +486,7 @@
             },
             {
                 year: "2018",
-                audioUrl: "", 
+                audioUrl: "./2018.mp3",
                 q: {
                     es: "¿Fecha de publicación?",
                     en: "Release date?"
@@ -498,7 +498,7 @@
             },
             {
                 year: "2019",
-                audioUrl: "", 
+                audioUrl: "./2019.mp3",
                 q: {
                     es: "¿Qué discográfica la publicó?",
                     en: "Which record label released it?"
@@ -510,7 +510,7 @@
             },
             {
                 year: "2020",
-                audioUrl: "", 
+                audioUrl: "./2020.mp3",
                 q: {
                     es: "¿Nombre del álbum en el que apareció?",
                     en: "Name of the album in which it appeared?"
@@ -522,7 +522,7 @@
             },
             {
                 year: "2021",
-                audioUrl: "", 
+                audioUrl: "./2021.mp3",
                 q: {
                     es: "¿Puesto que alcanzó en la lista Billboard Hot 100 en EE. UU.?",
                     en: "Peak position on the US Billboard Hot 100 chart?"
@@ -534,7 +534,7 @@
             },
             {
                 year: "2022",
-                audioUrl: "", 
+                audioUrl: "./2022.mp3",
                 q: {
                     es: "¿Cuántos segundos dura?",
                     en: "How many seconds long is it?"
@@ -573,7 +573,7 @@
         const audioPlayer = document.getElementById('audioPlayer');
         const recordDisc = document.getElementById('recordDisc');
 
-        // Animación del vinilo vinculada a la reproducción del audio
+        // Animación del vinilo vinculada al estado de reproducción del audio
         audioPlayer.addEventListener('play', () => recordDisc.classList.add('playing'));
         audioPlayer.addEventListener('pause', () => recordDisc.classList.remove('playing'));
         audioPlayer.addEventListener('ended', () => recordDisc.classList.remove('playing'));
