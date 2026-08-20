@@ -33,10 +33,19 @@ html, body {width: 100%;height: 100vh;height: 100dvh;overflow: hidden;font-famil
 .record-center {width: clamp(16px, 2.4vh, 22px);height: clamp(16px, 2.4vh, 22px);background: #00f5d4;border-radius: 50%;border: 2.5px solid #fff;box-shadow: inset 0 0 3px rgba(0,0,0,0.5);}
 .jukebox-divider {width: calc(100% + 28px);margin-left: -14px;height: 3px;background: #00f5d4;box-shadow: 0 0 8px #00f5d4;z-index: 2;flex-shrink: 0;}
 /* BOTTOM ZONE: YEAR & PLAYER */
-.jukebox-bottom-zone {width: 100%;flex: 1;display: flex;flex-direction: column;justify-content: center;align-items: center;gap: clamp(8px, 1.5vh, 12px);z-index: 2;padding: 12px 6px;}
+.jukebox-bottom-zone {width: 100%;flex: 1;display: flex;flex-direction: column;justify-content: center;align-items: center;gap: clamp(8px, 1.2vh, 10px);z-index: 2;padding: 10px 6px;}
 .year-badge-bottom {background: #00f5d4;color: #03045e;border-radius: 8px;padding: 2px 16px;font-weight: 900;font-size: clamp(0.9rem, 2.8vw, 1.05rem);letter-spacing: 2px;box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);text-align: center;}
-.audio-frame-container {width: 100%;max-width: 260px;background: rgba(3, 4, 94, 0.85);border-radius: 16px;padding: 6px 10px;border: 2px solid #00f5d4;box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);display: flex;justify-content: center;align-items: center;}
-.audio-frame-container audio {width: 100%;height: 38px;outline: none;}
+
+/* CUSTOM AUDIO PLAYER WITH TRANSPORT SLIDER */
+.custom-audio-player {width: 100%;max-width: 260px;background: rgba(3, 4, 94, 0.85);border-radius: 16px;padding: 8px 12px;border: 2px solid #00f5d4;box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);display: flex;flex-direction: column;gap: 6px;align-items: center;}
+.player-controls {width: 100%;display: flex;align-items: center;gap: 10px;}
+.play-btn {background: #00f5d4;border: none;width: 32px;height: 32px;border-radius: 50%;color: #03045e;font-size: 0.9rem;display: flex;align-items: center;justify-content: center;cursor: pointer;flex-shrink: 0;box-shadow: 0 2px 6px rgba(0,245,212,0.4);transition: transform 0.1s ease;}
+.play-btn:active {transform: scale(0.95);}
+.time-display {font-size: 0.75rem;font-weight: 800;color: #caf0f8;font-family: monospace;min-width: 35px;text-align: center;}
+.seek-slider {flex: 1;-webkit-appearance: none;appearance: none;width: 100%;height: 6px;border-radius: 3px;background: rgba(144, 224, 239, 0.3);outline: none;cursor: pointer;}
+.seek-slider::-webkit-slider-thumb {-webkit-appearance: none;appearance: none;width: 14px;height: 14px;border-radius: 50%;background: #00f5d4;cursor: pointer;box-shadow: 0 0 6px rgba(0,245,212,0.8);}
+.seek-slider::-moz-range-thumb {width: 14px;height: 14px;border-radius: 50%;background: #00f5d4;cursor: pointer;border: none;box-shadow: 0 0 6px rgba(0,245,212,0.8);}
+
 /* QUESTION CONTAINER */
 .question-box {width: 100%;background: rgba(3, 4, 94, 0.45);border: 1px solid rgba(144, 224, 239, 0.3);border-radius: 14px;padding: clamp(10px, 2vh, 14px) 14px;margin: 6px 0;text-align: center;flex-grow: 1;display: flex;flex-direction: column;justify-content: center;align-items: center;box-shadow: inset 0 2px 6px rgba(0,0,0,0.3);}
 .question-title {font-size: clamp(0.7rem, 2.2vw, 0.8rem);text-transform: uppercase;letter-spacing: 1.5px;color: #00f5d4;font-weight: 800;margin-bottom: 6px;}
@@ -64,7 +73,7 @@ html, body {width: 100%;height: 100vh;height: 100dvh;overflow: hidden;font-famil
   <!-- SCREEN 1: INTRO -->
   <div class="screen active" id="screenIntro">
     <div class="intro-box">
-      <p class="intro-text" id="txtIntro">Usa Wikipedia para averiguar las respuestas.</p>
+      <p class="intro-text" id="txtIntro">Utiliza los datos de wikipedia para obtener las respuestas</p>
     </div>
     <button class="btn-main" id="btnStart" onclick="startJukebox()">COMENZAR</button>
   </div>
@@ -82,8 +91,14 @@ html, body {width: 100%;height: 100vh;height: 100dvh;overflow: hidden;font-famil
       <div class="jukebox-divider"></div>
       <div class="jukebox-bottom-zone">
         <div class="year-badge-bottom" id="yearBadge">2017</div>
-        <div class="audio-frame-container">
-          <audio id="audioPlayer" controls preload="auto"></audio>
+        <div class="custom-audio-player">
+          <audio id="audioPlayer" preload="auto"></audio>
+          <div class="player-controls">
+            <button class="play-btn" id="playBtn" onclick="togglePlay()">▶</button>
+            <span class="time-display" id="currentTime">0:00</span>
+            <input type="range" class="seek-slider" id="seekSlider" value="0" min="0" max="100" oninput="seekAudio()">
+            <span class="time-display" id="durationTime">0:00</span>
+          </div>
         </div>
       </div>
     </div>
@@ -207,7 +222,7 @@ const quizData = [
 
 const translations = {
   es: {
-    intro: "Usa Wikipedia para averiguar las respuestas.",
+    intro: "Utiliza los datos de wikipedia para obtener las respuestas",
     start: "COMENZAR",
     questionLbl: "PREGUNTA",
     next: "SIGUIENTE",
@@ -216,7 +231,7 @@ const translations = {
     certitudeBtn: "COMPROBAR EN CERTITUDE"
   },
   en: {
-    intro: "Use Wikipedia to find out the answers.",
+    intro: "Use wikipedia data to get the answers",
     start: "START",
     questionLbl: "QUESTION",
     next: "NEXT",
@@ -231,10 +246,61 @@ let currentIndex = 0;
 
 const audioPlayer = document.getElementById('audioPlayer');
 const recordDisc = document.getElementById('recordDisc');
+const playBtn = document.getElementById('playBtn');
+const seekSlider = document.getElementById('seekSlider');
+const currentTimeElem = document.getElementById('currentTime');
+const durationTimeElem = document.getElementById('durationTime');
 
-audioPlayer.addEventListener('play', () => recordDisc.classList.add('playing'));
-audioPlayer.addEventListener('pause', () => recordDisc.classList.remove('playing'));
-audioPlayer.addEventListener('ended', () => recordDisc.classList.remove('playing'));
+audioPlayer.addEventListener('play', () => {
+  recordDisc.classList.add('playing');
+  playBtn.innerText = '❚❚';
+});
+
+audioPlayer.addEventListener('pause', () => {
+  recordDisc.classList.remove('playing');
+  playBtn.innerText = '▶';
+});
+
+audioPlayer.addEventListener('ended', () => {
+  recordDisc.classList.remove('playing');
+  playBtn.innerText = '▶';
+  seekSlider.value = 0;
+  currentTimeElem.innerText = '0:00';
+});
+
+audioPlayer.addEventListener('timeupdate', () => {
+  if (audioPlayer.duration) {
+    const pct = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+    seekSlider.value = pct;
+    currentTimeElem.innerText = formatTime(audioPlayer.currentTime);
+  }
+});
+
+audioPlayer.addEventListener('loadedmetadata', () => {
+  durationTimeElem.innerText = formatTime(audioPlayer.duration);
+});
+
+function formatTime(seconds) {
+  if (isNaN(seconds)) return "0:00";
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+}
+
+function togglePlay() {
+  if (audioPlayer.paused) {
+    audioPlayer.play();
+  } else {
+    audioPlayer.pause();
+  }
+}
+
+function seekAudio() {
+  if (audioPlayer.duration) {
+    const seekTo = audioPlayer.duration * (seekSlider.value / 100);
+    audioPlayer.currentTime = seekTo;
+  }
+}
 
 function toggleLanguage() {
   currentLang = currentLang === 'es' ? 'en' : 'es';
@@ -285,6 +351,11 @@ function loadSong(index) {
   const item = quizData[index];
   document.getElementById('yearBadge').innerText = item.year;
   renderQuestion(item);
+  
+  seekSlider.value = 0;
+  currentTimeElem.innerText = '0:00';
+  durationTimeElem.innerText = '0:00';
+  
   if (item.audioUrl) {
     audioPlayer.pause();
     audioPlayer.src = item.audioUrl;
