@@ -241,6 +241,15 @@
             justify-content: center;
             align-items: center;
             box-shadow: 0 0 6px rgba(0,0,0,0.8);
+            animation: spinDisc 3s linear infinite paused;
+        }
+
+        .record-disc.playing {
+            animation-play-state: running;
+        }
+
+        @keyframes spinDisc {
+            100% { transform: rotate(360deg); }
         }
 
         .record-center {
@@ -259,24 +268,27 @@
             justify-content: center;
             align-items: center;
             z-index: 2;
+            padding: 10px;
         }
 
-        /* Mini Reproductor de YouTube */
-        .youtube-frame-container {
+        /* Mini Reproductor de Audio HTML5 */
+        .audio-frame-container {
             width: 100%;
-            max-width: 230px;
-            height: clamp(100px, 15vh, 130px);
-            border-radius: 12px;
-            overflow: hidden;
+            max-width: 250px;
+            background: rgba(3, 4, 94, 0.8);
+            border-radius: 16px;
+            padding: 8px;
             border: 2px solid #00f5d4;
             box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
-            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .youtube-frame-container iframe {
+        .audio-frame-container audio {
             width: 100%;
-            height: 100%;
-            border: none;
+            height: 36px;
+            outline: none;
         }
 
         /* Caja de Pregunta */
@@ -420,7 +432,7 @@
                 <div class="jukebox-top-zone">
                     <div class="jukebox-grill">
                         <div class="year-badge" id="yearBadge">2017</div>
-                        <div class="record-disc">
+                        <div class="record-disc" id="recordDisc">
                             <div class="record-center"></div>
                         </div>
                     </div>
@@ -431,8 +443,8 @@
 
                 <!-- Cuerpo Inferior -->
                 <div class="jukebox-bottom-zone">
-                    <div class="youtube-frame-container">
-                        <iframe id="ytPlayer" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    <div class="audio-frame-container">
+                        <audio id="audioPlayer" controls preload="auto"></audio>
                     </div>
                 </div>
             </div>
@@ -462,7 +474,7 @@
         const quizData = [
             {
                 year: "2017",
-                youtubeId: "kJQP7kiw5Fk", // Despacito (Audio)
+                audioUrl: "https://app.box.com/shared/static/yyw18uk3w89x8q5v0ctfjhh4ibda927c.mp3", // Enlace de Box adaptado para audio directo
                 q: {
                     es: "¿Cuántos segundos dura el audio original?",
                     en: "How many seconds does the original audio last?"
@@ -474,7 +486,7 @@
             },
             {
                 year: "2018",
-                youtubeId: "v-vEut6ksGU", // Sin Pijama (Audio Oficial VEVO)
+                audioUrl: "", 
                 q: {
                     es: "¿Fecha de publicación?",
                     en: "Release date?"
@@ -486,7 +498,7 @@
             },
             {
                 year: "2019",
-                youtubeId: "20G45eZIroM", // Callaíta (Audio con permisos libres)
+                audioUrl: "", 
                 q: {
                     es: "¿Qué discográfica la publicó?",
                     en: "Which record label released it?"
@@ -498,7 +510,7 @@
             },
             {
                 year: "2020",
-                youtubeId: "FDa4xMIqXkM", // Tusa (Audio embebible verificado)
+                audioUrl: "", 
                 q: {
                     es: "¿Nombre del álbum en el que apareció?",
                     en: "Name of the album in which it appeared?"
@@ -510,7 +522,7 @@
             },
             {
                 year: "2021",
-                youtubeId: "CnEZteulvm4", // Todo de Ti (Audio embebible verificado)
+                audioUrl: "", 
                 q: {
                     es: "¿Puesto que alcanzó en la lista Billboard Hot 100 en EE. UU.?",
                     en: "Peak position on the US Billboard Hot 100 chart?"
@@ -522,7 +534,7 @@
             },
             {
                 year: "2022",
-                youtubeId: "A9_43R10zQ0", // Despechá (Videoclip embebible verificado)
+                audioUrl: "", 
                 q: {
                     es: "¿Cuántos segundos dura?",
                     en: "How many seconds long is it?"
@@ -557,6 +569,14 @@
 
         let currentLang = 'es';
         let currentIndex = 0;
+
+        const audioPlayer = document.getElementById('audioPlayer');
+        const recordDisc = document.getElementById('recordDisc');
+
+        // Animación del vinilo vinculada a la reproducción del audio
+        audioPlayer.addEventListener('play', () => recordDisc.classList.add('playing'));
+        audioPlayer.addEventListener('pause', () => recordDisc.classList.remove('playing'));
+        audioPlayer.addEventListener('ended', () => recordDisc.classList.remove('playing'));
 
         function toggleLanguage() {
             currentLang = currentLang === 'es' ? 'en' : 'es';
@@ -598,7 +618,8 @@
 
         function loadSong(index) {
             if (index >= quizData.length) {
-                document.getElementById('ytPlayer').src = "";
+                audioPlayer.pause();
+                audioPlayer.src = "";
                 document.getElementById('screenJukebox').classList.remove('active');
                 document.getElementById('screenFinal').classList.add('active');
                 return;
@@ -607,7 +628,13 @@
             const item = quizData[index];
             document.getElementById('yearBadge').innerText = item.year;
             renderQuestion(item);
-            document.getElementById('ytPlayer').src = `https://www.youtube.com/embed/${item.youtubeId}?autoplay=1&controls=0&cc_load_policy=0&iv_load_policy=3&playsinline=1&rel=0`;
+
+            if (item.audioUrl) {
+                audioPlayer.src = item.audioUrl;
+                audioPlayer.play().catch(e => console.log("Autoplay bloqueado por el navegador:", e));
+            } else {
+                audioPlayer.src = "";
+            }
         }
 
         function nextSong() {
