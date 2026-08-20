@@ -455,7 +455,7 @@
         const quizData = [
             {
                 year: "2017",
-                audioUrl: "2017.mp3",
+                audioUrl: "./audio/2017.mp3",
                 q: {
                     es: "¿Cuántos segundos dura el vídeo original?",
                     en: "How many seconds does the original video last?"
@@ -467,7 +467,7 @@
             },
             {
                 year: "2018",
-                audioUrl: "2018.mp3",
+                audioUrl: "./audio/2018.mp3",
                 q: {
                     es: "¿Fecha de publicación?",
                     en: "Release date?"
@@ -479,7 +479,7 @@
             },
             {
                 year: "2019",
-                audioUrl: "2019.mp3",
+                audioUrl: "./audio/2019.mp3",
                 q: {
                     es: "¿Qué discográfica la publicó?",
                     en: "Which record label released it?"
@@ -491,7 +491,7 @@
             },
             {
                 year: "2020",
-                audioUrl: "2020.mp3",
+                audioUrl: "./audio/2020.mp3",
                 q: {
                     es: "¿Nombre del álbum en el que apareció?",
                     en: "Name of the album in which it appeared?"
@@ -503,7 +503,7 @@
             },
             {
                 year: "2021",
-                audioUrl: "2021.mp3",
+                audioUrl: "./audio/2021.mp3",
                 q: {
                     es: "¿Puesto que alcanzó en la lista Billboard Hot 100 en EE. UU.?",
                     en: "Peak position on the US Billboard Hot 100 chart?"
@@ -515,7 +515,7 @@
             },
             {
                 year: "2022",
-                audioUrl: "2022.mp3",
+                audioUrl: "./audio/2022.mp3",
                 q: {
                     es: "¿Cuántos segundos dura?",
                     en: "How many seconds long is it?"
@@ -524,6 +524,42 @@
                     es: "",
                     en: ""
                 }
+            },
+            {
+                year: "2023",
+                audioUrl: "./audio/2023.mp3",
+                q: {
+                    es: "¿Pregunta 2023?",
+                    en: "Question 2023?"
+                },
+                note: { es: "", en: "" }
+            },
+            {
+                year: "2024",
+                audioUrl: "./audio/2024.mp3",
+                q: {
+                    es: "¿Pregunta 2024?",
+                    en: "Question 2024?"
+                },
+                note: { es: "", en: "" }
+            },
+            {
+                year: "2025",
+                audioUrl: "./audio/2025.mp3",
+                q: {
+                    es: "¿Pregunta 2025?",
+                    en: "Question 2025?"
+                },
+                note: { es: "", en: "" }
+            },
+            {
+                year: "2026",
+                audioUrl: "./audio/2026.mp3",
+                q: {
+                    es: "¿Pregunta 2026?",
+                    en: "Question 2026?"
+                },
+                note: { es: "", en: "" }
             }
         ];
 
@@ -612,15 +648,7 @@
             if (item.audioUrl) {
                 audioPlayer.pause();
                 audioPlayer.src = item.audioUrl;
-                audioPlayer.load(); // Fuerza al navegador a cargar los metadatos del archivo
-                
-                // Intenta reproducir tras la interacción del usuario
-                const playPromise = audioPlayer.play();
-                if (playPromise !== undefined) {
-                    playPromise.catch(e => {
-                        console.log("Esperando interacción para reproducción o archivo no encontrado:", e);
-                    });
-                }
+                audioPlayer.load();
             } else {
                 audioPlayer.src = "";
             }
