@@ -1,670 +1,304 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SUMMER JUKEBOX</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&display=swap" rel="stylesheet">
-    <style>
-        @font-face {
-            font-family: 'FuturaCustom';
-            src: local('Futura-Medium'), local('Futura'), local('Trebuchet MS'), sans-serif;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            user-select: none;
-            -webkit-user-select: none;
-        }
-
-        html, body {
-            width: 100%;
-            height: 100vh;
-            height: 100dvh;
-            overflow: hidden;
-            font-family: 'Outfit', sans-serif;
-            background: linear-gradient(135deg, #00b4d8 0%, #0077b6 40%, #03045e 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #fff;
-        }
-
-        .sunburst {
-            position: absolute;
-            width: 160vw;
-            height: 160vh;
-            background: repeating-conic-gradient(from 0deg, rgba(144, 224, 239, 0.1) 0deg 15deg, transparent 15deg 30deg);
-            animation: rotateSun 60s linear infinite;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        @keyframes rotateSun {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .app-container {
-            position: relative;
-            z-index: 10;
-            width: 92%;
-            max-width: 430px;
-            height: 95vh;
-            height: 95dvh;
-            max-height: 820px;
-            background: rgba(3, 4, 94, 0.25);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 2px solid rgba(144, 224, 239, 0.4);
-            border-radius: 28px;
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.4);
-            padding: clamp(10px, 3vh, 18px);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .header {
-            width: 100%;
-            height: 36px;
-            position: relative;
-            display: flex;
-            align-items: center;
-            flex-shrink: 0;
-        }
-
-        .app-title {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            font-family: 'FuturaCustom', 'Outfit', sans-serif;
-            font-size: clamp(1.1rem, 4.5vw, 1.5rem);
-            font-weight: 900;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            white-space: nowrap;
-            background: linear-gradient(180deg, #ffffff 0%, #caf0f8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 10px rgba(0,180,216,0.5);
-        }
-
-        .lang-switch {
-            position: absolute;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0, 180, 216, 0.25);
-            border: 1px solid rgba(144, 224, 239, 0.5);
-            border-radius: 20px;
-            color: #fff;
-            font-size: 0.75rem;
-            font-weight: 800;
-            padding: 3px 9px;
-            cursor: pointer;
-            outline: none;
-            transition: all 0.2s ease;
-            z-index: 2;
-        }
-
-        .lang-switch:hover {
-            background: rgba(144, 224, 239, 0.4);
-            color: #03045e;
-        }
-
-        .screen {
-            width: 100%;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-            flex-grow: 1;
-            margin: 6px 0;
-        }
-
-        .screen.active {
-            display: flex;
-        }
-
-        .intro-box {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 10px;
-        }
-
-        .intro-text {
-            font-family: 'FuturaCustom', 'Outfit', sans-serif;
-            font-size: clamp(1rem, 3.8vw, 1.25rem);
-            line-height: 1.5;
-            text-align: center;
-            text-align-last: center;
-            color: #ffffff;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-            font-weight: 600;
-            background: rgba(0, 119, 182, 0.35);
-            padding: clamp(16px, 3vh, 24px) clamp(14px, 3vw, 20px);
-            border-radius: 20px;
-            border: 1px solid rgba(144, 224, 239, 0.4);
-        }
-
-        /* JUKEBOX FRAME */
-        .jukebox-wrapper {
-            position: relative;
-            width: 100%;
-            max-width: 300px;
-            height: clamp(300px, 44vh, 370px);
-            background: linear-gradient(180deg, #0077b6 0%, #023e8a 100%);
-            border-radius: 150px 150px 24px 24px;
-            border: 3px solid #00f5d4;
-            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45), 0 0 12px rgba(0, 245, 212, 0.5);
-            display: flex;
-            flex-direction: column;
-            padding: 0 14px;
-            margin: 2px 0;
-            flex-shrink: 0;
-            overflow: hidden;
-        }
-
-        /* TOP ZONE: VINYL ONLY */
-        .jukebox-top-zone {
-            width: 100%;
-            height: clamp(130px, 20vh, 160px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 2;
-        }
-
-        .jukebox-grill {
-            width: 80%;
-            height: clamp(90px, 14vh, 120px);
-            background: radial-gradient(circle, #101c38 20%, #03045e 80%);
-            border-radius: 80px 80px 18px 18px;
-            border: 2px solid #00f5d4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            position: relative;
-            box-shadow: inset 0 0 12px rgba(0,0,0,0.8);
-        }
-
-        .record-disc {
-            width: clamp(55px, 8vh, 75px);
-            height: clamp(55px, 8vh, 75px);
-            background: radial-gradient(circle, #2b2b2b 25%, #000 75%);
-            border-radius: 50%;
-            border: 2px solid #555;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 0 10px rgba(0,0,0,0.8);
-            animation: spinDisc 3s linear infinite paused;
-            transition: transform 0.3s ease;
-        }
-
-        .record-disc.playing {
-            animation-play-state: running;
-        }
-
-        @keyframes spinDisc {
-            100% { transform: rotate(360deg); }
-        }
-
-        .record-center {
-            width: clamp(16px, 2.4vh, 22px);
-            height: clamp(16px, 2.4vh, 22px);
-            background: #00f5d4;
-            border-radius: 50%;
-            border: 2.5px solid #fff;
-            box-shadow: inset 0 0 3px rgba(0,0,0,0.5);
-        }
-
-        .jukebox-divider {
-            width: calc(100% + 28px);
-            margin-left: -14px;
-            height: 3px;
-            background: #00f5d4;
-            box-shadow: 0 0 8px #00f5d4;
-            z-index: 2;
-            flex-shrink: 0;
-        }
-
-        /* BOTTOM ZONE: YEAR & PLAYER */
-        .jukebox-bottom-zone {
-            width: 100%;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: clamp(8px, 1.5vh, 12px);
-            z-index: 2;
-            padding: 12px 6px;
-        }
-
-        .year-badge-bottom {
-            background: #00f5d4;
-            color: #03045e;
-            border-radius: 8px;
-            padding: 2px 16px;
-            font-weight: 900;
-            font-size: clamp(0.9rem, 2.8vw, 1.05rem);
-            letter-spacing: 2px;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
-            text-align: center;
-        }
-
-        .audio-frame-container {
-            width: 100%;
-            max-width: 260px;
-            background: rgba(3, 4, 94, 0.85);
-            border-radius: 16px;
-            padding: 6px 10px;
-            border: 2px solid #00f5d4;
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .audio-frame-container audio {
-            width: 100%;
-            height: 38px;
-            outline: none;
-        }
-
-        /* QUESTION CONTAINER */
-        .question-box {
-            width: 100%;
-            background: rgba(3, 4, 94, 0.45);
-            border: 1px solid rgba(144, 224, 239, 0.3);
-            border-radius: 14px;
-            padding: clamp(10px, 2vh, 14px) 14px;
-            margin: 6px 0;
-            text-align: center;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            box-shadow: inset 0 2px 6px rgba(0,0,0,0.3);
-        }
-
-        .question-title {
-            font-size: clamp(0.7rem, 2.2vw, 0.8rem);
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: #00f5d4;
-            font-weight: 800;
-            margin-bottom: 6px;
-        }
-
-        .question-text {
-            font-size: clamp(1.05rem, 3.6vw, 1.25rem);
-            line-height: 1.3;
-            font-weight: 800;
-            color: #ffffff;
-            text-shadow: 0 2px 6px rgba(0,0,0,0.5);
-        }
-
-        .question-note {
-            display: block;
-            font-size: clamp(0.8rem, 2.6vw, 0.9rem);
-            font-weight: 600;
-            color: #caf0f8;
-            margin-top: 5px;
-            opacity: 0.9;
-        }
-
-        .btn-main {
-            width: 100%;
-            padding: clamp(10px, 1.8vh, 13px);
-            border: none;
-            border-radius: 16px;
-            background: linear-gradient(135deg, #00f5d4 0%, #00bbf9 100%);
-            color: #03045e;
-            font-family: 'FuturaCustom', 'Outfit', sans-serif;
-            font-size: clamp(0.95rem, 3vw, 1.05rem);
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            cursor: pointer;
-            box-shadow: 0 6px 18px rgba(0, 245, 212, 0.4);
-            transition: all 0.2s ease;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
-            flex-shrink: 0;
-        }
-
-        .btn-main:active {
-            transform: translateY(2px);
-            box-shadow: 0 3px 8px rgba(0, 245, 212, 0.4);
-        }
-
-        .btn-certitude {
-            background: linear-gradient(135deg, #48cae4 0%, #0077b6 100%);
-            color: #ffffff;
-            box-shadow: 0 6px 18px rgba(0, 119, 182, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .final-box {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 10px;
-        }
-
-        .final-badge {
-            font-size: clamp(2.5rem, 8vw, 3.5rem);
-            margin-bottom: 10px;
-            animation: bounce 1.5s infinite alternate;
-        }
-
-        @keyframes bounce {
-            from { transform: translateY(0); }
-            to { transform: translateY(-10px); }
-        }
-
-        .final-text {
-            font-size: clamp(0.95rem, 3vw, 1.05rem);
-            line-height: 1.4;
-            margin-bottom: 12px;
-            font-weight: 600;
-        }
-
-        .final-hint {
-            font-size: clamp(0.75rem, 2.5vw, 0.85rem);
-            color: #caf0f8;
-            background: rgba(3, 4, 94, 0.4);
-            padding: 10px 14px;
-            border-radius: 12px;
-            margin-bottom: 15px;
-            border: 1px solid rgba(144, 224, 239, 0.3);
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>SUMMER JUKEBOX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&display=swap" rel="stylesheet">
+<style>
+@font-face {font-family: 'FuturaCustom';src: local('Futura-Medium'), local('Futura'), local('Trebuchet MS'), sans-serif;}
+* {box-sizing: border-box;margin: 0;padding: 0;user-select: none;-webkit-user-select: none;}
+html, body {width: 100%;height: 100vh;height: 100dvh;overflow: hidden;font-family: 'Outfit', sans-serif;background: linear-gradient(135deg, #00b4d8 0%, #0077b6 40%, #03045e 100%);display: flex;justify-content: center;align-items: center;color: #fff;}
+.sunburst {position: absolute;width: 160vw;height: 160vh;background: repeating-conic-gradient(from 0deg, rgba(144, 224, 239, 0.1) 0deg 15deg, transparent 15deg 30deg);animation: rotateSun 60s linear infinite;pointer-events: none;z-index: 1;}
+@keyframes rotateSun {from { transform: rotate(0deg); }to { transform: rotate(360deg); }}
+.app-container {position: relative;z-index: 10;width: 92%;max-width: 430px;height: 95vh;height: 95dvh;max-height: 820px;background: rgba(3, 4, 94, 0.25);backdrop-filter: blur(16px);-webkit-backdrop-filter: blur(16px);border: 2px solid rgba(144, 224, 239, 0.4);border-radius: 28px;box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.4);padding: clamp(10px, 3vh, 18px);display: flex;flex-direction: column;justify-content: space-between;align-items: center;}
+.header {width: 100%;height: 36px;position: relative;display: flex;align-items: center;flex-shrink: 0;}
+.app-title {position: absolute;left: 50%;transform: translateX(-50%);font-family: 'FuturaCustom', 'Outfit', sans-serif;font-size: clamp(1.1rem, 4.5vw, 1.5rem);font-weight: 900;letter-spacing: 1.5px;text-transform: uppercase;white-space: nowrap;background: linear-gradient(180deg, #ffffff 0%, #caf0f8 100%);-webkit-background-clip: text;-webkit-text-fill-color: transparent;text-shadow: 0 2px 10px rgba(0,180,216,0.5);}
+.lang-switch {position: absolute;right: 0;top: 50%;transform: translateY(-50%);background: rgba(0, 180, 216, 0.25);border: 1px solid rgba(144, 224, 239, 0.5);border-radius: 20px;color: #fff;font-size: 0.75rem;font-weight: 800;padding: 3px 9px;cursor: pointer;outline: none;transition: all 0.2s ease;z-index: 2;}
+.lang-switch:hover {background: rgba(144, 224, 239, 0.4);color: #03045e;}
+.screen {width: 100%;display: none;flex-direction: column;align-items: center;justify-content: space-between;flex-grow: 1;margin: 6px 0;}
+.screen.active {display: flex;}
+.intro-box {flex: 1;display: flex;flex-direction: column;justify-content: center;align-items: center;text-align: center;padding: 10px;}
+.intro-text {font-family: 'FuturaCustom', 'Outfit', sans-serif;font-size: clamp(1rem, 3.8vw, 1.25rem);line-height: 1.5;text-align: center;text-align-last: center;color: #ffffff;text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);font-weight: 600;background: rgba(0, 119, 182, 0.35);padding: clamp(16px, 3vh, 24px) clamp(14px, 3vw, 20px);border-radius: 20px;border: 1px solid rgba(144, 224, 239, 0.4);}
+/* JUKEBOX FRAME */
+.jukebox-wrapper {position: relative;width: 100%;max-width: 300px;height: clamp(300px, 44vh, 370px);background: linear-gradient(180deg, #0077b6 0%, #023e8a 100%);border-radius: 150px 150px 24px 24px;border: 3px solid #00f5d4;box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45), 0 0 12px rgba(0, 245, 212, 0.5);display: flex;flex-direction: column;padding: 0 14px;margin: 2px 0;flex-shrink: 0;overflow: hidden;}
+/* TOP ZONE: VINYL ONLY */
+.jukebox-top-zone {width: 100%;height: clamp(130px, 20vh, 160px);display: flex;justify-content: center;align-items: center;z-index: 2;}
+.jukebox-grill {width: 80%;height: clamp(90px, 14vh, 120px);background: radial-gradient(circle, #101c38 20%, #03045e 80%);border-radius: 80px 80px 18px 18px;border: 2px solid #00f5d4;display: flex;justify-content: center;align-items: center;overflow: hidden;position: relative;box-shadow: inset 0 0 12px rgba(0,0,0,0.8);}
+.record-disc {width: clamp(55px, 8vh, 75px);height: clamp(55px, 8vh, 75px);background: radial-gradient(circle, #2b2b2b 25%, #000 75%);border-radius: 50%;border: 2px solid #555;display: flex;justify-content: center;align-items: center;box-shadow: 0 0 10px rgba(0,0,0,0.8);animation: spinDisc 3s linear infinite paused;transition: transform 0.3s ease;}
+.record-disc.playing {animation-play-state: running;}
+@keyframes spinDisc {100% { transform: rotate(360deg); }}
+.record-center {width: clamp(16px, 2.4vh, 22px);height: clamp(16px, 2.4vh, 22px);background: #00f5d4;border-radius: 50%;border: 2.5px solid #fff;box-shadow: inset 0 0 3px rgba(0,0,0,0.5);}
+.jukebox-divider {width: calc(100% + 28px);margin-left: -14px;height: 3px;background: #00f5d4;box-shadow: 0 0 8px #00f5d4;z-index: 2;flex-shrink: 0;}
+/* BOTTOM ZONE: YEAR & PLAYER */
+.jukebox-bottom-zone {width: 100%;flex: 1;display: flex;flex-direction: column;justify-content: center;align-items: center;gap: clamp(8px, 1.5vh, 12px);z-index: 2;padding: 12px 6px;}
+.year-badge-bottom {background: #00f5d4;color: #03045e;border-radius: 8px;padding: 2px 16px;font-weight: 900;font-size: clamp(0.9rem, 2.8vw, 1.05rem);letter-spacing: 2px;box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);text-align: center;}
+.audio-frame-container {width: 100%;max-width: 260px;background: rgba(3, 4, 94, 0.85);border-radius: 16px;padding: 6px 10px;border: 2px solid #00f5d4;box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);display: flex;justify-content: center;align-items: center;}
+.audio-frame-container audio {width: 100%;height: 38px;outline: none;}
+/* QUESTION CONTAINER */
+.question-box {width: 100%;background: rgba(3, 4, 94, 0.45);border: 1px solid rgba(144, 224, 239, 0.3);border-radius: 14px;padding: clamp(10px, 2vh, 14px) 14px;margin: 6px 0;text-align: center;flex-grow: 1;display: flex;flex-direction: column;justify-content: center;align-items: center;box-shadow: inset 0 2px 6px rgba(0,0,0,0.3);}
+.question-title {font-size: clamp(0.7rem, 2.2vw, 0.8rem);text-transform: uppercase;letter-spacing: 1.5px;color: #00f5d4;font-weight: 800;margin-bottom: 6px;}
+.question-text {font-size: clamp(1.05rem, 3.6vw, 1.25rem);line-height: 1.3;font-weight: 800;color: #ffffff;text-shadow: 0 2px 6px rgba(0,0,0,0.5);}
+.question-note {display: block;font-size: clamp(0.8rem, 2.6vw, 0.9rem);font-weight: 600;color: #caf0f8;margin-top: 5px;opacity: 0.9;}
+.btn-main {width: 100%;padding: clamp(10px, 1.8vh, 13px);border: none;border-radius: 16px;background: linear-gradient(135deg, #00f5d4 0%, #00bbf9 100%);color: #03045e;font-family: 'FuturaCustom', 'Outfit', sans-serif;font-size: clamp(0.95rem, 3vw, 1.05rem);font-weight: 800;text-transform: uppercase;letter-spacing: 1.5px;cursor: pointer;box-shadow: 0 6px 18px rgba(0, 245, 212, 0.4);transition: all 0.2s ease;text-decoration: none;display: inline-block;text-align: center;flex-shrink: 0;}
+.btn-main:active {transform: translateY(2px);box-shadow: 0 3px 8px rgba(0, 245, 212, 0.4);}
+.btn-certitude {background: linear-gradient(135deg, #48cae4 0%, #0077b6 100%);color: #ffffff;box-shadow: 0 6px 18px rgba(0, 119, 182, 0.5);border: 1px solid rgba(255, 255, 255, 0.3);}
+.final-box {flex: 1;display: flex;flex-direction: column;justify-content: center;align-items: center;text-align: center;padding: 10px;}
+.final-badge {font-size: clamp(2.5rem, 8vw, 3.5rem);margin-bottom: 10px;animation: bounce 1.5s infinite alternate;}
+@keyframes bounce {from { transform: translateY(0); }to { transform: translateY(-10px); }}
+.final-text {font-size: clamp(0.95rem, 3vw, 1.05rem);line-height: 1.4;margin-bottom: 12px;font-weight: 600;}
+.final-hint {font-size: clamp(0.75rem, 2.5vw, 0.85rem);color: #caf0f8;background: rgba(3, 4, 94, 0.4);padding: 10px 14px;border-radius: 12px;margin-bottom: 15px;border: 1px solid rgba(144, 224, 239, 0.3);}
+</style>
 </head>
 <body>
-    <div class="sunburst"></div>
-    <div class="app-container">
-        <!-- Header -->
-        <div class="header">
-            <div class="app-title">SUMMER JUKEBOX</div>
-            <button class="lang-switch" id="langBtn" onclick="toggleLanguage()">EN</button>
-        </div>
+<div class="sunburst"></div>
+<div class="app-container">
+  <!-- Header -->
+  <div class="header">
+    <div class="app-title">SUMMER JUKEBOX</div>
+    <button class="lang-switch" id="langBtn" onclick="toggleLanguage()">EN</button>
+  </div>
 
-        <!-- SCREEN 1: INTRO -->
-        <div class="screen active" id="screenIntro">
-            <div class="intro-box">
-                <p class="intro-text" id="txtIntro">Usa Wikipedia para averiguar las respuestas.</p>
-            </div>
-            <button class="btn-main" id="btnStart" onclick="startJukebox()">COMENZAR</button>
-        </div>
-
-        <!-- SCREEN 2: JUKEBOX PLAYER -->
-        <div class="screen" id="screenJukebox">
-            <div class="jukebox-wrapper">
-                <div class="jukebox-top-zone">
-                    <div class="jukebox-grill">
-                        <div class="record-disc" id="recordDisc">
-                            <div class="record-center"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="jukebox-divider"></div>
-
-                <div class="jukebox-bottom-zone">
-                    <div class="year-badge-bottom" id="yearBadge">2017</div>
-                    <div class="audio-frame-container">
-                        <audio id="audioPlayer" controls preload="auto"></audio>
-                    </div>
-                </div>
-            </div>
-
-            <div class="question-box">
-                <div class="question-title" id="lblQuestion">Pregunta</div>
-                <div class="question-text" id="txtQuestion"></div>
-            </div>
-
-            <button class="btn-main" id="btnNext" onclick="nextSong()">SIGUIENTE</button>
-        </div>
-
-        <!-- SCREEN 3: FINAL CERTITUDE LINK -->
-        <div class="screen" id="screenFinal">
-            <div class="final-box">
-                <div class="final-badge">🌊</div>
-                <p class="final-text" id="txtFinal">¡Has completado el recorrido musical!</p>
-                <p class="final-hint" id="txtHint">Introduce tus respuestas separadas por guiones medios (-) en Certitude para obtener las coordenadas finales.</p>
-            </div>
-            <a href="https://www.certitudes.org/certitude?wp=GCBWER3" target="_blank" rel="noopener" class="btn-main btn-certitude" id="btnCertitude">COMPROBAR EN CERTITUDE</a>
-        </div>
+  <!-- SCREEN 1: INTRO -->
+  <div class="screen active" id="screenIntro">
+    <div class="intro-box">
+      <p class="intro-text" id="txtIntro">Usa Wikipedia para averiguar las respuestas.</p>
     </div>
+    <button class="btn-main" id="btnStart" onclick="startJukebox()">COMENZAR</button>
+  </div>
 
-    <script>
-        const quizData = [
-            {
-                year: "2017",
-                audioUrl: "./audio/2017.mp3?v=1",
-                q: {
-                    es: "¿Cuántos segundos dura el vídeo original?",
-                    en: "How many seconds does the original video last?"
-                },
-                note: {
-                    es: "",
-                    en: ""
-                }
-            },
-            {
-                year: "2018",
-                audioUrl: "./audio/2018.mp3?v=1",
-                q: {
-                    es: "¿Fecha de publicación?",
-                    en: "Release date?"
-                },
-                note: {
-                    es: "(DíaMes, formato: 0000)",
-                    en: "(DayMonth, format: 0000)"
-                }
-            },
-            {
-                year: "2019",
-                audioUrl: "./audio/2019.mp3?v=1",
-                q: {
-                    es: "¿Qué discográfica la publicó?",
-                    en: "Which record label released it?"
-                },
-                note: {
-                    es: "",
-                    en: ""
-                }
-            },
-            {
-                year: "2020",
-                audioUrl: "./audio/2020.mp3?v=1",
-                q: {
-                    es: "¿Nombre del álbum en el que apareció?",
-                    en: "Name of the album in which it appeared?"
-                },
-                note: {
-                    es: "",
-                    en: ""
-                }
-            },
-            {
-                year: "2021",
-                audioUrl: "./audio/2021.mp3?v=1",
-                q: {
-                    es: "¿Puesto que alcanzó en la lista Billboard Hot 100 en EE. UU.?",
-                    en: "Peak position on the US Billboard Hot 100 chart?"
-                },
-                note: {
-                    es: "",
-                    en: ""
-                }
-            },
-            {
-                year: "2022",
-                audioUrl: "./audio/2022.mp3?v=1",
-                q: {
-                    es: "¿Cuántos segundos dura?",
-                    en: "How many seconds long is it?"
-                },
-                note: {
-                    es: "",
-                    en: ""
-                }
-            },
-            {
-                year: "2023",
-                audioUrl: "./audio/2023.mp3?v=1",
-                q: {
-                    es: "¿Pregunta 2023?",
-                    en: "Question 2023?"
-                },
-                note: { es: "", en: "" }
-            },
-            {
-                year: "2024",
-                audioUrl: "./audio/2024.mp3?v=1",
-                q: {
-                    es: "¿Pregunta 2024?",
-                    en: "Question 2024?"
-                },
-                note: { es: "", en: "" }
-            },
-            {
-                year: "2025",
-                audioUrl: "./audio/2025.mp3?v=1",
-                q: {
-                    es: "¿Pregunta 2025?",
-                    en: "Question 2025?"
-                },
-                note: { es: "", en: "" }
-            },
-            {
-                year: "2026",
-                audioUrl: "./audio/2026.mp3?v=1",
-                q: {
-                    es: "¿Pregunta 2026?",
-                    en: "Question 2026?"
-                },
-                note: { es: "", en: "" }
-            }
-        ];
+  <!-- SCREEN 2: JUKEBOX PLAYER -->
+  <div class="screen" id="screenJukebox">
+    <div class="jukebox-wrapper">
+      <div class="jukebox-top-zone">
+        <div class="jukebox-grill">
+          <div class="record-disc" id="recordDisc">
+            <div class="record-center"></div>
+          </div>
+        </div>
+      </div>
+      <div class="jukebox-divider"></div>
+      <div class="jukebox-bottom-zone">
+        <div class="year-badge-bottom" id="yearBadge">2017</div>
+        <div class="audio-frame-container">
+          <audio id="audioPlayer" controls preload="auto"></audio>
+        </div>
+      </div>
+    </div>
+    <div class="question-box">
+      <div class="question-title" id="lblQuestion">Pregunta</div>
+      <div class="question-text" id="txtQuestion"></div>
+    </div>
+    <button class="btn-main" id="btnNext" onclick="nextSong()">SIGUIENTE</button>
+  </div>
 
-        const translations = {
-            es: {
-                intro: "Usa Wikipedia para averiguar las respuestas.",
-                start: "COMENZAR",
-                questionLbl: "PREGUNTA",
-                next: "SIGUIENTE",
-                final: "¡Has completado el recorrido musical!",
-                hint: "Anota tus respuestas y colócalas separadas por guiones medios (-) en Certitude.",
-                certitudeBtn: "COMPROBAR EN CERTITUDE"
-            },
-            en: {
-                intro: "Use Wikipedia to find out the answers.",
-                start: "START",
-                questionLbl: "QUESTION",
-                next: "NEXT",
-                final: "You have completed the musical quiz!",
-                hint: "Write down your answers and enter them separated by hyphens (-) in Certitude.",
-                certitudeBtn: "CHECK ON CERTITUDE"
-            }
-        };
+  <!-- SCREEN 3: FINAL CERTITUDE LINK -->
+  <div class="screen" id="screenFinal">
+    <div class="final-box">
+      <div class="final-badge">🌊</div>
+      <p class="final-text" id="txtFinal">¡Has completado el recorrido musical!</p>
+      <p class="final-hint" id="txtHint">Introduce tus respuestas separadas por guiones medios (-) en Certitude para obtener las coordenadas finales.</p>
+    </div>
+    <a href="https://www.certitudes.org/certitude?wp=GCBWER3" target="_blank" rel="noopener" class="btn-main btn-certitude" id="btnCertitude">COMPROBAR EN CERTITUDE</a>
+  </div>
+</div>
 
-        let currentLang = 'es';
-        let currentIndex = 0;
+<script>
+const quizData = [
+  {
+    year: "2017",
+    audioUrl: "./audio/2017.mp3?v=1",
+    q: {
+      es: "¿Cuántos segundos dura el vídeo original?",
+      en: "How many seconds does the original video last?"
+    },
+    note: { es: "", en: "" }
+  },
+  {
+    year: "2018",
+    audioUrl: "./audio/2018.mp3?v=1",
+    q: {
+      es: "¿Fecha de publicación?",
+      en: "Release date?"
+    },
+    note: {
+      es: "(DíaMes, formato: 0000)",
+      en: "(DayMonth, format: 0000)"
+    }
+  },
+  {
+    year: "2019",
+    audioUrl: "./audio/2019.mp3?v=1",
+    q: {
+      es: "¿Qué discográfica la publicó?",
+      en: "Which record label released it?"
+    },
+    note: { es: "", en: "" }
+  },
+  {
+    year: "2020",
+    audioUrl: "./audio/2020.mp3?v=1",
+    q: {
+      es: "¿Nombre del álbum en el que apareció?",
+      en: "Name of the album in which it appeared?"
+    },
+    note: { es: "", en: "" }
+  },
+  {
+    year: "2021",
+    audioUrl: "./audio/2021.mp3?v=1",
+    q: {
+      es: "¿Puesto que alcanzó en la lista Billboard Hot 100 en EE. UU.?",
+      en: "Peak position on the US Billboard Hot 100 chart?"
+    },
+    note: { es: "", en: "" }
+  },
+  {
+    year: "2022",
+    audioUrl: "./audio/2022.mp3?v=1",
+    q: {
+      es: "¿Cuántos segundos dura?",
+      en: "How many seconds long is it?"
+    },
+    note: { es: "", en: "" }
+  },
+  {
+    year: "2023",
+    audioUrl: "./audio/2023.mp3?v=1",
+    q: {
+      es: "¿Cuántos puntos obtuvo en la final del Benidorm Fest?",
+      en: "How many points did it receive in the Benidorm Fest final?"
+    },
+    note: { es: "", en: "" }
+  },
+  {
+    year: "2024",
+    audioUrl: "./audio/2024.mp3?v=1",
+    q: {
+      es: "¿A qué álbum perteneció?",
+      en: "Which album did it belong to?"
+    },
+    note: { es: "", en: "" }
+  },
+  {
+    year: "2025",
+    audioUrl: "./audio/2025.mp3?v=1",
+    q: {
+      es: "¿Nombre de la discoteca en la que se grabó el videoclip?",
+      en: "Name of the nightclub where the music video was filmed?"
+    },
+    note: { es: "", en: "" }
+  },
+  {
+    year: "2026",
+    audioUrl: "./audio/2026.mp3?v=1",
+    q: {
+      es: "¿Fecha del lanzamiento del vídeo musical?",
+      en: "Music video release date?"
+    },
+    note: {
+      es: "(DíaMes, formato: 0000)",
+      en: "(DayMonth, format: 0000)"
+    }
+  }
+];
 
-        const audioPlayer = document.getElementById('audioPlayer');
-        const recordDisc = document.getElementById('recordDisc');
+const translations = {
+  es: {
+    intro: "Usa Wikipedia para averiguar las respuestas.",
+    start: "COMENZAR",
+    questionLbl: "PREGUNTA",
+    next: "SIGUIENTE",
+    final: "¡Has completado el recorrido musical!",
+    hint: "Anota tus respuestas y colócalas separadas por guiones medios (-) en Certitude.",
+    certitudeBtn: "COMPROBAR EN CERTITUDE"
+  },
+  en: {
+    intro: "Use Wikipedia to find out the answers.",
+    start: "START",
+    questionLbl: "QUESTION",
+    next: "NEXT",
+    final: "You have completed the musical quiz!",
+    hint: "Write down your answers and enter them separated by hyphens (-) in Certitude.",
+    certitudeBtn: "CHECK ON CERTITUDE"
+  }
+};
 
-        audioPlayer.addEventListener('play', () => recordDisc.classList.add('playing'));
-        audioPlayer.addEventListener('pause', () => recordDisc.classList.remove('playing'));
-        audioPlayer.addEventListener('ended', () => recordDisc.classList.remove('playing'));
+let currentLang = 'es';
+let currentIndex = 0;
 
-        function toggleLanguage() {
-            currentLang = currentLang === 'es' ? 'en' : 'es';
-            document.getElementById('langBtn').innerText = currentLang === 'es' ? 'EN' : 'ES';
-            updateI18n();
-        }
+const audioPlayer = document.getElementById('audioPlayer');
+const recordDisc = document.getElementById('recordDisc');
 
-        function updateI18n() {
-            const t = translations[currentLang];
-            document.getElementById('txtIntro').innerText = t.intro;
-            document.getElementById('btnStart').innerText = t.start;
-            document.getElementById('lblQuestion').innerText = t.questionLbl;
-            document.getElementById('btnNext').innerText = t.next;
-            document.getElementById('txtFinal').innerText = t.final;
-            document.getElementById('txtHint').innerText = t.hint;
-            document.getElementById('btnCertitude').innerText = t.certitudeBtn;
+audioPlayer.addEventListener('play', () => recordDisc.classList.add('playing'));
+audioPlayer.addEventListener('pause', () => recordDisc.classList.remove('playing'));
+audioPlayer.addEventListener('ended', () => recordDisc.classList.remove('playing'));
 
-            if (quizData[currentIndex]) {
-                renderQuestion(quizData[currentIndex]);
-            }
-        }
+function toggleLanguage() {
+  currentLang = currentLang === 'es' ? 'en' : 'es';
+  document.getElementById('langBtn').innerText = currentLang === 'es' ? 'EN' : 'ES';
+  updateI18n();
+}
 
-        function startJukebox() {
-            document.getElementById('screenIntro').classList.remove('active');
-            document.getElementById('screenJukebox').classList.add('active');
-            currentIndex = 0;
-            loadSong(currentIndex);
-        }
+function updateI18n() {
+  const t = translations[currentLang];
+  document.getElementById('txtIntro').innerText = t.intro;
+  document.getElementById('btnStart').innerText = t.start;
+  document.getElementById('lblQuestion').innerText = t.questionLbl;
+  document.getElementById('btnNext').innerText = t.next;
+  document.getElementById('txtFinal').innerText = t.final;
+  document.getElementById('txtHint').innerText = t.hint;
+  document.getElementById('btnCertitude').innerText = t.certitudeBtn;
+  if (quizData[currentIndex]) {
+    renderQuestion(quizData[currentIndex]);
+  }
+}
 
-        function renderQuestion(item) {
-            const mainText = item.q[currentLang];
-            const noteText = item.note[currentLang];
-            if (noteText) {
-                document.getElementById('txtQuestion').innerHTML = `${mainText}<span class="question-note">${noteText}</span>`;
-            } else {
-                document.getElementById('txtQuestion').innerText = mainText;
-            }
-        }
+function startJukebox() {
+  document.getElementById('screenIntro').classList.remove('active');
+  document.getElementById('screenJukebox').classList.add('active');
+  currentIndex = 0;
+  loadSong(currentIndex);
+}
 
-        function loadSong(index) {
-            if (index >= quizData.length) {
-                audioPlayer.pause();
-                audioPlayer.removeAttribute('src');
-                audioPlayer.load();
-                document.getElementById('screenJukebox').classList.remove('active');
-                document.getElementById('screenFinal').classList.add('active');
-                return;
-            }
+function renderQuestion(item) {
+  const mainText = item.q[currentLang];
+  const noteText = item.note[currentLang];
+  if (noteText) {
+    document.getElementById('txtQuestion').innerHTML = `${mainText}<span class="question-note">${noteText}</span>`;
+  } else {
+    document.getElementById('txtQuestion').innerText = mainText;
+  }
+}
 
-            const item = quizData[index];
-            document.getElementById('yearBadge').innerText = item.year;
-            renderQuestion(item);
+function loadSong(index) {
+  if (index >= quizData.length) {
+    audioPlayer.pause();
+    audioPlayer.removeAttribute('src');
+    audioPlayer.load();
+    document.getElementById('screenJukebox').classList.remove('active');
+    document.getElementById('screenFinal').classList.add('active');
+    return;
+  }
+  const item = quizData[index];
+  document.getElementById('yearBadge').innerText = item.year;
+  renderQuestion(item);
+  if (item.audioUrl) {
+    audioPlayer.pause();
+    audioPlayer.src = item.audioUrl;
+    audioPlayer.load();
+  } else {
+    audioPlayer.removeAttribute('src');
+    audioPlayer.load();
+  }
+}
 
-            if (item.audioUrl) {
-                audioPlayer.pause();
-                audioPlayer.src = item.audioUrl;
-                audioPlayer.load();
-            } else {
-                audioPlayer.removeAttribute('src');
-                audioPlayer.load();
-            }
-        }
-
-        function nextSong() {
-            currentIndex++;
-            loadSong(currentIndex);
-        }
-    </script>
+function nextSong() {
+  currentIndex++;
+  loadSong(currentIndex);
+}
+</script>
 </body>
 </html>
