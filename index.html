@@ -157,13 +157,14 @@
             border: 1px solid rgba(144, 224, 239, 0.4);
         }
 
+        /* JUKEBOX FRAME */
         .jukebox-wrapper {
             position: relative;
             width: 100%;
-            max-width: 290px;
-            height: clamp(280px, 42vh, 350px);
+            max-width: 300px;
+            height: clamp(300px, 44vh, 370px);
             background: linear-gradient(180deg, #0077b6 0%, #023e8a 100%);
-            border-radius: 145px 145px 24px 24px;
+            border-radius: 150px 150px 24px 24px;
             border: 3px solid #00f5d4;
             box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45), 0 0 12px rgba(0, 245, 212, 0.5);
             display: flex;
@@ -174,30 +175,59 @@
             overflow: hidden;
         }
 
+        /* TOP ZONE: VINYL ONLY */
         .jukebox-top-zone {
             width: 100%;
-            height: clamp(110px, 18vh, 145px);
+            height: clamp(130px, 20vh, 160px);
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 2;
         }
 
         .jukebox-grill {
-            width: 75%;
-            height: clamp(65px, 11vh, 85px);
+            width: 80%;
+            height: clamp(90px, 14vh, 120px);
             background: radial-gradient(circle, #101c38 20%, #03045e 80%);
-            border-radius: 70px 70px 16px 16px;
+            border-radius: 80px 80px 18px 18px;
             border: 2px solid #00f5d4;
             display: flex;
-            flex-direction: column;
-            justify-content: space-evenly;
+            justify-content: center;
             align-items: center;
-            padding-top: 2px;
             overflow: hidden;
             position: relative;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.7);
+            box-shadow: inset 0 0 12px rgba(0,0,0,0.8);
+        }
+
+        .record-disc {
+            width: clamp(55px, 8vh, 75px);
+            height: clamp(55px, 8vh, 75px);
+            background: radial-gradient(circle, #2b2b2b 25%, #000 75%);
+            border-radius: 50%;
+            border: 2px solid #555;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 10px rgba(0,0,0,0.8);
+            animation: spinDisc 3s linear infinite paused;
+            transition: transform 0.3s ease;
+        }
+
+        .record-disc.playing {
+            animation-play-state: running;
+        }
+
+        @keyframes spinDisc {
+            100% { transform: rotate(360deg); }
+        }
+
+        .record-center {
+            width: clamp(16px, 2.4vh, 22px);
+            height: clamp(16px, 2.4vh, 22px);
+            background: #00f5d4;
+            border-radius: 50%;
+            border: 2.5px solid #fff;
+            box-shadow: inset 0 0 3px rgba(0,0,0,0.5);
         }
 
         .jukebox-divider {
@@ -210,63 +240,37 @@
             flex-shrink: 0;
         }
 
-        .year-badge {
-            background: #00f5d4;
-            color: #03045e;
-            border-radius: 6px;
-            padding: 1px clamp(8px, 2vw, 12px);
-            font-weight: 900;
-            font-size: clamp(0.75rem, 2.5vw, 0.85rem);
-            letter-spacing: 1.5px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.4);
-            text-align: center;
-        }
-
-        .record-disc {
-            width: clamp(30px, 5vh, 38px);
-            height: clamp(30px, 5vh, 38px);
-            background: radial-gradient(circle, #2b2b2b 30%, #000 70%);
-            border-radius: 50%;
-            border: 2px solid #555;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 0 6px rgba(0,0,0,0.8);
-            animation: spinDisc 3s linear infinite paused;
-        }
-
-        .record-disc.playing {
-            animation-play-state: running;
-        }
-
-        @keyframes spinDisc {
-            100% { transform: rotate(360deg); }
-        }
-
-        .record-center {
-            width: clamp(9px, 1.5vh, 12px);
-            height: clamp(9px, 1.5vh, 12px);
-            background: #00f5d4;
-            border-radius: 50%;
-            border: 2px solid #fff;
-        }
-
+        /* BOTTOM ZONE: YEAR & PLAYER */
         .jukebox-bottom-zone {
             width: 100%;
             flex: 1;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
+            gap: clamp(8px, 1.5vh, 12px);
             z-index: 2;
-            padding: 10px;
+            padding: 12px 6px;
+        }
+
+        .year-badge-bottom {
+            background: #00f5d4;
+            color: #03045e;
+            border-radius: 8px;
+            padding: 2px 16px;
+            font-weight: 900;
+            font-size: clamp(0.9rem, 2.8vw, 1.05rem);
+            letter-spacing: 2px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+            text-align: center;
         }
 
         .audio-frame-container {
             width: 100%;
-            max-width: 250px;
-            background: rgba(3, 4, 94, 0.8);
+            max-width: 260px;
+            background: rgba(3, 4, 94, 0.85);
             border-radius: 16px;
-            padding: 8px;
+            padding: 6px 10px;
             border: 2px solid #00f5d4;
             box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
             display: flex;
@@ -276,10 +280,11 @@
 
         .audio-frame-container audio {
             width: 100%;
-            height: 36px;
+            height: 38px;
             outline: none;
         }
 
+        /* QUESTION CONTAINER */
         .question-box {
             width: 100%;
             background: rgba(3, 4, 94, 0.45);
@@ -416,7 +421,6 @@
             <div class="jukebox-wrapper">
                 <div class="jukebox-top-zone">
                     <div class="jukebox-grill">
-                        <div class="year-badge" id="yearBadge">2017</div>
                         <div class="record-disc" id="recordDisc">
                             <div class="record-center"></div>
                         </div>
@@ -426,6 +430,7 @@
                 <div class="jukebox-divider"></div>
 
                 <div class="jukebox-bottom-zone">
+                    <div class="year-badge-bottom" id="yearBadge">2017</div>
                     <div class="audio-frame-container">
                         <audio id="audioPlayer" controls preload="auto"></audio>
                     </div>
@@ -455,7 +460,7 @@
         const quizData = [
             {
                 year: "2017",
-                audioUrl: "./audio/2017.mp3",
+                audioUrl: "./audio/2017.mp3?v=1",
                 q: {
                     es: "¿Cuántos segundos dura el vídeo original?",
                     en: "How many seconds does the original video last?"
@@ -467,7 +472,7 @@
             },
             {
                 year: "2018",
-                audioUrl: "./audio/2018.mp3",
+                audioUrl: "./audio/2018.mp3?v=1",
                 q: {
                     es: "¿Fecha de publicación?",
                     en: "Release date?"
@@ -479,7 +484,7 @@
             },
             {
                 year: "2019",
-                audioUrl: "./audio/2019.mp3",
+                audioUrl: "./audio/2019.mp3?v=1",
                 q: {
                     es: "¿Qué discográfica la publicó?",
                     en: "Which record label released it?"
@@ -491,7 +496,7 @@
             },
             {
                 year: "2020",
-                audioUrl: "./audio/2020.mp3",
+                audioUrl: "./audio/2020.mp3?v=1",
                 q: {
                     es: "¿Nombre del álbum en el que apareció?",
                     en: "Name of the album in which it appeared?"
@@ -503,7 +508,7 @@
             },
             {
                 year: "2021",
-                audioUrl: "./audio/2021.mp3",
+                audioUrl: "./audio/2021.mp3?v=1",
                 q: {
                     es: "¿Puesto que alcanzó en la lista Billboard Hot 100 en EE. UU.?",
                     en: "Peak position on the US Billboard Hot 100 chart?"
@@ -515,7 +520,7 @@
             },
             {
                 year: "2022",
-                audioUrl: "./audio/2022.mp3",
+                audioUrl: "./audio/2022.mp3?v=1",
                 q: {
                     es: "¿Cuántos segundos dura?",
                     en: "How many seconds long is it?"
@@ -527,7 +532,7 @@
             },
             {
                 year: "2023",
-                audioUrl: "./audio/2023.mp3",
+                audioUrl: "./audio/2023.mp3?v=1",
                 q: {
                     es: "¿Pregunta 2023?",
                     en: "Question 2023?"
@@ -536,7 +541,7 @@
             },
             {
                 year: "2024",
-                audioUrl: "./audio/2024.mp3",
+                audioUrl: "./audio/2024.mp3?v=1",
                 q: {
                     es: "¿Pregunta 2024?",
                     en: "Question 2024?"
@@ -545,7 +550,7 @@
             },
             {
                 year: "2025",
-                audioUrl: "./audio/2025.mp3",
+                audioUrl: "./audio/2025.mp3?v=1",
                 q: {
                     es: "¿Pregunta 2025?",
                     en: "Question 2025?"
@@ -554,7 +559,7 @@
             },
             {
                 year: "2026",
-                audioUrl: "./audio/2026.mp3",
+                audioUrl: "./audio/2026.mp3?v=1",
                 q: {
                     es: "¿Pregunta 2026?",
                     en: "Question 2026?"
@@ -635,7 +640,8 @@
         function loadSong(index) {
             if (index >= quizData.length) {
                 audioPlayer.pause();
-                audioPlayer.src = "";
+                audioPlayer.removeAttribute('src');
+                audioPlayer.load();
                 document.getElementById('screenJukebox').classList.remove('active');
                 document.getElementById('screenFinal').classList.add('active');
                 return;
@@ -650,7 +656,8 @@
                 audioPlayer.src = item.audioUrl;
                 audioPlayer.load();
             } else {
-                audioPlayer.src = "";
+                audioPlayer.removeAttribute('src');
+                audioPlayer.load();
             }
         }
 
